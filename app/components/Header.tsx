@@ -9,6 +9,7 @@ const Header = () => {
         Nordic Experiences
       </div>
       <div>PROFILE</div>
+      <div>PROFILE</div>
     </div>
   );
 };
