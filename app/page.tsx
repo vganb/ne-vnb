@@ -4,8 +4,8 @@ import DropdownFilter from "./components/DropdownFilter";
 import DatePickerWithRange from "./components/DatePicker";
 import CardIntro from "./components/CardIntro";
 import HorizontalScrollbarPage from "./components/HorizontalScrollbarPage";
-import { Navigation } from "lucide-react";
 import NavigationBottom from "./components/NavigationBottom";
+import PackageCard from "./components/PackageCard";
 
 interface Category {
   name: string;
@@ -90,6 +90,17 @@ function Home() {
           ))}
         </HorizontalScrollbarPage>{" "}
       </div>
+      <div className="mx-auto my-4">
+        <PackageCard
+          title="Historical tour"
+          city="Stockholm"
+          description="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere sit saepe ducimus laudantium eligendi dolorum dolor voluptates voluptatem ullam molestiae."
+          price={200}
+          tag="History"
+          image="https://bilder.hemnet.se/images/1024x/1d/7a/1d7aa8df55f50c019aa0a035681eea67.jpg"
+        />
+      </div>
+
       <div className="mt-auto w-full">
         <NavigationBottom />
       </div>
