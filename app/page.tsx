@@ -65,6 +65,81 @@ const categories: Category[] = [
   },
 ];
 
+interface Package {
+  title: string;
+  city: string;
+  description: string;
+  price: number;
+  tag: string;
+  image: string;
+}
+
+const packages: Package[] = [
+  {
+    title: "Historical Tour",
+    city: "Stockholm",
+    description: "Explore the rich history of Stockholm with a guided tour.",
+    price: 200,
+    tag: "History",
+    image: "https://www.forskning.se/app/uploads/2024/02/Vasaskeppet.jpg",
+  },
+  {
+    title: "Food Tour",
+    city: "Copenhagen",
+    description: "Discover the best local food spots in Copenhagen.",
+    price: 150,
+    tag: "Food",
+    image:
+      "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?crop=entropy&fit=crop&w=1050&h=700",
+  },
+  {
+    title: "Music Experience",
+    city: "Helsinki",
+    description: "Enjoy the local music scene in Helsinki.",
+    price: 120,
+    tag: "Music",
+    image:
+      "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?crop=entropy&fit=crop&w=1050&h=700",
+  },
+  {
+    title: "Music Experience",
+    city: "Helsinki",
+    description: "Enjoy the local music scene in Helsinki.",
+    price: 120,
+    tag: "Music",
+    image:
+      "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?crop=entropy&fit=crop&w=1050&h=700",
+  },
+  {
+    title: "Music Experience",
+    city: "Helsinki",
+    description: "Enjoy the local music scene in Helsinki.",
+    price: 120,
+    tag: "Music",
+    image:
+      "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?crop=entropy&fit=crop&w=1050&h=700",
+  },
+  {
+    title: "Music Experience",
+    city: "Helsinki",
+    description: "Enjoy the local music scene in Helsinki.",
+    price: 120,
+    tag: "Music",
+    image:
+      "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?crop=entropy&fit=crop&w=1050&h=700",
+  },
+  {
+    title: "Music Experience",
+    city: "Helsinki",
+    description: "Enjoy the local music scene in Helsinki.",
+    price: 120,
+    tag: "Music",
+    image:
+      "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?crop=entropy&fit=crop&w=1050&h=700",
+  },
+  // Add more packages here
+];
+
 function Home() {
   return (
     <div className="min-h-screen flex flex-col">
@@ -90,15 +165,20 @@ function Home() {
           ))}
         </HorizontalScrollbarPage>{" "}
       </div>
-      <div className="mx-auto my-4">
-        <PackageCard
-          title="Historical tour"
-          city="Stockholm"
-          description="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere sit saepe ducimus laudantium eligendi dolorum dolor voluptates voluptatem ullam molestiae."
-          price={200}
-          tag="History"
-          image="https://bilder.hemnet.se/images/1024x/1d/7a/1d7aa8df55f50c019aa0a035681eea67.jpg"
-        />
+
+      {/* Responsive grid layout for PackageCard */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+        {packages.map((pkg, index) => (
+          <PackageCard
+            key={index}
+            title={pkg.title}
+            city={pkg.city}
+            description={pkg.description}
+            price={pkg.price}
+            tag={pkg.tag}
+            image={pkg.image}
+          />
+        ))}
       </div>
 
       <div className="mt-auto w-full">

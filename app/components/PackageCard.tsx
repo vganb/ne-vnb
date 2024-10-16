@@ -29,7 +29,7 @@ export function PackageCard({
   tagBgColor = "bg-orange-500", // Default color if none is provided
 }: PackageCardProps) {
   return (
-    <Card className="w-[350px]">
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>
@@ -41,13 +41,10 @@ export function PackageCard({
           className="rounded-md object-cover h-48 w-full"
         />
 
-        {/* City of the experience */}
-        <div className="flex justify-between">
-          <CardDescription>
-            {city}
-
-            <span className="text-lg font-bold">${price}</span>
-          </CardDescription>
+        {/* City and Price aligned on the same line */}
+        <div className="flex justify-between mt-4">
+          <CardDescription className="text-gray-500">{city}</CardDescription>
+          <span className="text-lg font-bold">${price}</span>
         </div>
 
         {/* Tag Badge on the Image */}
