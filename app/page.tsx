@@ -4,6 +4,8 @@ import DropdownFilter from "./components/DropdownFilter";
 import DatePickerWithRange from "./components/DatePicker";
 import CardIntro from "./components/CardIntro";
 import HorizontalScrollbarPage from "./components/HorizontalScrollbarPage";
+import { Navigation } from "lucide-react";
+import NavigationBottom from "./components/NavigationBottom";
 
 interface Category {
   name: string;
@@ -65,29 +67,33 @@ const categories: Category[] = [
 
 function Home() {
   return (
-    <div className="min-w-320px">
+    <div className="min-h-screen flex flex-col">
       <Header />
       <div className="px-2 mt-4 grid gap-4 place-items-center">
         <DropdownFilter />
         <DatePickerWithRange />
       </div>
-      <div className="flex flex-col mx-auto mt-8 py-4 items-center border-2 rounded-lg w-[400px]">
+      <div className="w-full sm:w-[400px] flex flex-col mx-auto mt-4 py-4 items-center border-2 rounded-lg">
         <h1 className="font-semibold">Packages</h1>
         <p>Ready to go travel packages, get yours today!</p>
         <CardIntro />
       </div>
-      <div className="bg-green-200  rounded-lg mt-4 mx-12 p-1">
+      <div className="w-full sm:w-[400px] bg-orange-100  rounded-lg mt-4 mx-auto">
         <HorizontalScrollbarPage>
           {categories.map((category) => (
             <div
               key={category.name}
-              className="p-2 bg-green-300 border-2 border-gray-900 rounded-lg text-center shrink-0 hover:border-gray-400"
+              className="p-1 bg-orange-300 border-2 border-gray-400 rounded-md text-center shrink-0 lowercase hover:bg-orange-400"
             >
               {category.name}
             </div>
           ))}
         </HorizontalScrollbarPage>{" "}
       </div>
+      <div className="mt-auto w-full">
+        <NavigationBottom />
+      </div>
+      {/* min-w-320px */}
     </div>
   );
 }

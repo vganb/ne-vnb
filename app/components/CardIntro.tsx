@@ -27,7 +27,7 @@ const CardIntro = () => {
           Learn more
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="">
         <DialogHeader>
           <DialogTitle className="text-orange-400">Learn More</DialogTitle>
           <DialogDescription>

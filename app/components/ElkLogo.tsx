@@ -1,11 +1,11 @@
 import React from "react";
 
-function NeLogo() {
+function ElkLogo() {
   return (
     <div>
       <svg
-        width="41"
-        height="41"
+        width="51"
+        height="51"
         viewBox="0 0 31 29"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -32,4 +32,4 @@ function NeLogo() {
   );
 }
 
-export default NeLogo;
+export default ElkLogo;
