@@ -39,14 +39,19 @@ function DatePickerWithRange({
   const isSmallScreen = useMediaQuery("(max-width: 640px)");
 
   return (
-    <div className={cn("grid gap-2 place-items-center", className)}>
+    <div
+      className={cn(
+        "w-full sm:w-[400px] grid gap-2 place-items-center",
+        className
+      )}
+    >
       <Popover>
         <PopoverTrigger asChild>
           <Button
             id="date"
             variant="outline"
             className={cn(
-              "w-full sm:w-[300px] justify-start text-left font-normal",
+              "w-full sm:w-[400px] justify-start font-normal",
               !date && "text-muted-foreground"
             )}
           >

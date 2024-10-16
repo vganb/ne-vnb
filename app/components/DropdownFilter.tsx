@@ -32,7 +32,10 @@ export function DropdownFilter() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">
+        <Button
+          variant="outline"
+          className="w-full sm:w-[400px] justify-between font-normal"
+        >
           <div className="flex items-center">
             <div className="font-semibold">Destination</div>
             <div className="font-thin pl-2">
