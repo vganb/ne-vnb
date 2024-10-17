@@ -13,7 +13,7 @@ function NavigationTop() {
   };
 
   return (
-    <div className="hidden sm:flex gap-6 justify-evenly items-center h-16">
+    <div className="hidden sm:flex gap-10 justify-evenly items-center h-16">
       {/* Package Icon and Label */}
       <div
         className="cursor-pointer flex flex-col items-center justify-end"
