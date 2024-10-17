@@ -13,6 +13,11 @@ body {
   }
 }
 
+.icon {
+  width: 30px;
+  height: 30px;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
