@@ -1,19 +1,19 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import PackageIcon from "./PackageIcon";
 import HousingIcon from "./HousingIcon";
 import CartIcon from "./CartIcon";
 import ProfileIcon from "./ProfileIcon";
-import { useState } from "react";
 
-function NavigationBottom() {
+function NavigationTop() {
   const [activeIcon, setActiveIcon] = useState("package");
 
   const handleIconClick = (icon: string) => {
     setActiveIcon(icon);
   };
+
   return (
-    <div className="fixed bottom-0 left-0 w-full sm:hidden flex justify-evenly items-center border-t-4 border-purple-700 h-16 bg-white z-50">
+    <div className="hidden sm:flex gap-6 justify-evenly items-center h-16">
       <div
         onClick={() => handleIconClick("package")}
         className="cursor-pointer"
@@ -55,4 +55,4 @@ function NavigationBottom() {
   );
 }
 
-export default NavigationBottom;
+export default NavigationTop;

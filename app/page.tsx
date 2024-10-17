@@ -6,6 +6,7 @@ import CardIntro from "./components/CardIntro";
 import HorizontalScrollbarPage from "./components/HorizontalScrollbarPage";
 import NavigationBottom from "./components/NavigationBottom";
 import PackageCard from "./components/PackageCard";
+import NavigationTop from "./components/NavigationTop";
 
 interface Category {
   name: string;
@@ -181,7 +182,7 @@ function Home() {
         ))}
       </div>
 
-      <div className="mt-auto w-full">
+      <div className="">
         <NavigationBottom />
       </div>
       {/* min-w-320px */}
