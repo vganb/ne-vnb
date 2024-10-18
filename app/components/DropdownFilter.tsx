@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-
 import { Button } from "./ui/button";
 import {
   DropdownMenu,
@@ -11,22 +10,28 @@ import {
 } from "./ui/dropdown-menu";
 import { IoIosArrowDown } from "react-icons/io";
 
-export function DropdownFilter() {
-  const [positions, setPositions] = React.useState<string[]>([]);
+interface DropdownFilterProps {
+  selectedCities: string[];
+  setSelectedCities: React.Dispatch<React.SetStateAction<string[]>>;
+}
 
-  const togglePosition = (value: string) => {
-    setPositions((prevPositions) =>
-      prevPositions.includes(value)
-        ? prevPositions.filter((p) => p !== value)
-        : [...prevPositions, value]
+export function DropdownFilter({
+  selectedCities,
+  setSelectedCities,
+}: DropdownFilterProps) {
+  const toggleCity = (value: string) => {
+    setSelectedCities((prevCities) =>
+      prevCities.includes(value)
+        ? prevCities.filter((city) => city !== value)
+        : [...prevCities, value]
     );
   };
 
-  const positionLabels: { [key: string]: string } = {
-    "1": "Copenhagen",
-    "2": "Stockholm",
-    "3": "Helsinki",
-    "4": "Oslo",
+  const cityLabels: { [key: string]: string } = {
+    Copenhagen: "Copenhagen",
+    Stockholm: "Stockholm",
+    Helsinki: "Helsinki",
+    Oslo: "Oslo",
   };
 
   return (
@@ -39,8 +44,8 @@ export function DropdownFilter() {
           <div className="flex items-center">
             <div className="font-semibold">Destination</div>
             <div className="font-thin pl-2">
-              {positions.length > 0
-                ? positions.map((value) => positionLabels[value]).join(", ")
+              {selectedCities.length > 0
+                ? selectedCities.map((city) => cityLabels[city]).join(", ")
                 : "All"}
             </div>
             <div className="pl-2">
@@ -50,11 +55,11 @@ export function DropdownFilter() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        {Object.entries(positionLabels).map(([value, label]) => (
+        {Object.entries(cityLabels).map(([value, label]) => (
           <DropdownMenuCheckboxItem
             key={value}
-            checked={positions.includes(value)}
-            onCheckedChange={() => togglePosition(value)}
+            checked={selectedCities.includes(value)}
+            onCheckedChange={() => toggleCity(value)}
           >
             {label}
           </DropdownMenuCheckboxItem>

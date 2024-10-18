@@ -4,12 +4,26 @@ import PackageIcon from "./PackageIcon";
 import HousingIcon from "./HousingIcon";
 import CartIcon from "./CartIcon";
 import ProfileIcon from "./ProfileIcon";
+import Link from "next/link";
+import { useAuth } from "../../context/AuthContext";
+import { useRouter } from "next/navigation";
 
 function NavigationTop() {
   const [activeIcon, setActiveIcon] = useState("package");
+  const { user, logout } = useAuth(); // Get the user and logout function from AuthContext
+  const router = useRouter();
 
   const handleIconClick = (icon: string) => {
     setActiveIcon(icon);
+  };
+
+  const handleProfileClick = async () => {
+    if (user) {
+      await logout();
+      router.push("/login");
+    } else {
+      router.push("/login");
+    }
   };
 
   return (
@@ -73,7 +87,10 @@ function NavigationTop() {
       {/* Profile Icon and Label */}
       <div
         className="cursor-pointer flex flex-col items-center justify-end"
-        onClick={() => handleIconClick("profile")}
+        onClick={() => {
+          handleIconClick("profile");
+          handleProfileClick();
+        }}
       >
         <ProfileIcon
           className={`icon ${
@@ -85,7 +102,7 @@ function NavigationTop() {
             activeIcon === "profile" ? "text-orange-700" : "text-gray-400"
           }`}
         >
-          Login
+          {user ? "Logout" : "Login"}
         </p>
       </div>
     </div>

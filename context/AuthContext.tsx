@@ -5,6 +5,8 @@ import {
   signInWithEmailAndPassword,
   signOut,
   User,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 import { auth } from "../lib/firebase"; // Firebase config from lib/firebase.ts
 import { useRouter } from "next/navigation";
@@ -14,6 +16,7 @@ interface AuthContextProps {
   user: User | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  loginWithGoogle: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextProps | null>(null);
@@ -35,6 +38,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     await signInWithEmailAndPassword(auth, email, password);
   };
 
+  // Function to handle login with Google
+  const loginWithGoogle = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+      router.push("/dashboard");
+    } catch (error) {
+      console.error("Google sign in with error:", error);
+    }
+  };
+
   // Function to handle logout
   const logout = async () => {
     await signOut(auth);
@@ -42,7 +56,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, loginWithGoogle }}>
       {children}
     </AuthContext.Provider>
   );

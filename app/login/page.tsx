@@ -3,9 +3,10 @@ import { useAuth } from "../../context/AuthContext";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import Link from "next/link";
+import { ro } from "date-fns/locale";
 
 const LoginPage = () => {
-  const { login } = useAuth();
+  const { login, loginWithGoogle } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -15,9 +16,18 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       await login(email, password);
-      router.push("/dashboard");
+      router.push("/");
     } catch (err) {
       setError("Failed to login");
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      await loginWithGoogle();
+      router.push("/");
+    } catch (error) {
+      setError("Failed to login with Google");
     }
   };
 
@@ -47,6 +57,13 @@ const LoginPage = () => {
           Login
         </button>
       </form>
+
+      <button
+        onClick={handleGoogleLogin}
+        className="w-full bg-blue-500 text-white p-2 rounded mt-4"
+      >
+        Login with Google
+      </button>
       {/* Add a link to the Sign-Up page */}
       <p className="mt-4">
         Don't have an account?{" "}
