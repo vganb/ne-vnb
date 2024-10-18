@@ -4,9 +4,9 @@ import PackageIcon from "./PackageIcon";
 import HousingIcon from "./HousingIcon";
 import CartIcon from "./CartIcon";
 import ProfileIcon from "./ProfileIcon";
-import Link from "next/link";
 import { useAuth } from "../../context/AuthContext";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 function NavigationTop() {
   const [activeIcon, setActiveIcon] = useState("package");
@@ -47,23 +47,25 @@ function NavigationTop() {
         </p>
       </div>
       {/* Housing Icon and Label */}
-      <div
-        className="cursor-pointer flex flex-col items-center justify-end"
-        onClick={() => handleIconClick("housing")}
-      >
-        <HousingIcon
-          className={`icon ${
-            activeIcon === "housing" ? "text-orange-700" : "text-gray-400"
-          }`}
-        />
-        <p
-          className={`text-xs ${
-            activeIcon === "housing" ? "text-orange-700" : "text-gray-400"
-          }`}
+      <Link href={"/housing"}>
+        <div
+          className="cursor-pointer flex flex-col items-center justify-end"
+          onClick={() => handleIconClick("housing")}
         >
-          Housing
-        </p>
-      </div>
+          <HousingIcon
+            className={`icon ${
+              activeIcon === "housing" ? "text-orange-700" : "text-gray-400"
+            }`}
+          />
+          <p
+            className={`text-xs ${
+              activeIcon === "housing" ? "text-orange-700" : "text-gray-400"
+            }`}
+          >
+            Housing
+          </p>
+        </div>
+      </Link>
 
       {/* Cart Icon and Label */}
       <div

@@ -7,76 +7,9 @@ import CardIntro from "./components/CardIntro";
 import HorizontalScrollbarPage from "./components/HorizontalScrollbarPage";
 import NavigationBottom from "./components/NavigationBottom";
 import PackageCard from "./components/PackageCard";
-import NavigationTop from "./components/NavigationTop";
 import { getPackages } from "../lib/firestore";
-
-interface Category {
-  name: string;
-}
-
-const categories: Category[] = [
-  {
-    name: "Historical",
-  },
-  {
-    name: "Food",
-  },
-  {
-    name: "Music",
-  },
-  {
-    name: "Adventure & Outdoor",
-  },
-  {
-    name: "Art & Culture",
-  },
-  {
-    name: "Nature & Wildlife",
-  },
-  {
-    name: "Sports",
-  },
-  {
-    name: "Wellness",
-  },
-  {
-    name: "Nightlife",
-  },
-  {
-    name: "Technology",
-  },
-  {
-    name: "Photography",
-  },
-  {
-    name: "Shopping",
-  },
-  {
-    name: "Architecture",
-  },
-  {
-    name: "Festivals",
-  },
-  {
-    name: "Luxury Travel",
-  },
-  {
-    name: "Spiritual Retreats",
-  },
-  {
-    name: "Volunteering",
-  },
-];
-
-interface Package {
-  id: string;
-  title: string;
-  city: string;
-  description: string;
-  price: number;
-  tag: string;
-  image: string;
-}
+import { Package } from "../lib/types";
+// import { Category } from "../lib/types";
 
 function Home() {
   const [packages, setPackages] = useState<Package[]>([]);
@@ -88,7 +21,7 @@ function Home() {
   useEffect(() => {
     const fetchPackages = async () => {
       const { packages, uniqueTags } = await getPackages(); // Fetch both packages and categories
-      setPackages(packages as Package[]);
+      setPackages(packages);
       setCategories(["All", ...uniqueTags]); // Add "All" to the list of categories
       setLoading(false); // Set loading to false once data is fetched
     };
@@ -111,6 +44,7 @@ function Home() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
+
       <div className="px-2 mt-4 grid gap-4 place-items-center">
         <DropdownFilter
           selectedCities={selectedCities}
@@ -153,7 +87,6 @@ function Home() {
           />
         ))}
       </div>
-
       <div className="">
         <NavigationBottom />
       </div>
