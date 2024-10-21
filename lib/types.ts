@@ -11,6 +11,16 @@ export interface Package {
   packageId?: string; // Add packageId if applicable
 }
 
+export interface PackageCardProps {
+  title: string;
+  city: string;
+  description: string;
+  price: number;
+  tag: string;
+  image: string;
+  tagBgColor?: string; // Optional background color for the tag
+}
+
 interface Category {
   name: string;
 }

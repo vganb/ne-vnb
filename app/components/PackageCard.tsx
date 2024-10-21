@@ -8,15 +8,7 @@ import {
   CardTitle,
 } from "./ui/card";
 
-interface PackageCardProps {
-  title: string;
-  city: string;
-  description: string;
-  price: number;
-  tag: string;
-  image: string;
-  tagBgColor?: string; // Optional background color for the tag
-}
+import { PackageCardProps } from "../../lib/types";
 
 export function PackageCard({
   title,
