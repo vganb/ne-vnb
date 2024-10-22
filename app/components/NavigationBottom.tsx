@@ -1,73 +1,94 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import PackageIcon from "./PackageIcon";
 import HousingIcon from "./HousingIcon";
 import CartIcon from "./CartIcon";
 import ProfileIcon from "./ProfileIcon";
 import { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation"; // Import usePathname from app router
 
 function NavigationBottom() {
   const [activeIcon, setActiveIcon] = useState("package");
+  const pathname = usePathname(); // Use usePathname instead of useRouter
+
+  useEffect(() => {
+    if (pathname.includes("housing")) {
+      setActiveIcon("housing");
+    } else if (pathname.includes("checkout")) {
+      setActiveIcon("cart");
+    } else if (pathname.includes("profile")) {
+      setActiveIcon("profile");
+    } else {
+      setActiveIcon("package"); // Default to "package" if no specific route
+    }
+  }, [pathname]);
 
   const handleIconClick = (icon: string) => {
     setActiveIcon(icon);
   };
   return (
     <div className="fixed bottom-0 left-0 w-full sm:hidden flex justify-evenly items-center border-t-4 border-purple-700 h-16 bg-white z-50">
-      <div
-        className="cursor-pointer flex flex-col items-center justify-end"
-        onClick={() => handleIconClick("package")}
-      >
-        <PackageIcon
-          className={`icon ${
-            activeIcon === "package" ? "text-orange-700" : "text-gray-400"
-          }`}
-        />
-        <p
-          className={`text-xs ${
-            activeIcon === "package" ? "text-orange-700" : "text-gray-400"
-          }`}
+      <Link href={"/"}>
+        <div
+          className="cursor-pointer flex flex-col items-center justify-end"
+          onClick={() => handleIconClick("package")}
         >
-          Packages
-        </p>
-      </div>
+          <PackageIcon
+            className={`icon ${
+              activeIcon === "package" ? "text-orange-700" : "text-gray-400"
+            }`}
+          />
+          <p
+            className={`text-xs ${
+              activeIcon === "package" ? "text-orange-700" : "text-gray-400"
+            }`}
+          >
+            Packages
+          </p>
+        </div>
+      </Link>
       {/* Housing Icon and Label */}
-      <div
-        className="cursor-pointer flex flex-col items-center justify-end"
-        onClick={() => handleIconClick("housing")}
-      >
-        <HousingIcon
-          className={`icon ${
-            activeIcon === "housing" ? "text-orange-700" : "text-gray-400"
-          }`}
-        />
-        <p
-          className={`text-xs ${
-            activeIcon === "housing" ? "text-orange-700" : "text-gray-400"
-          }`}
+      <Link href={"/housing"}>
+        <div
+          className="cursor-pointer flex flex-col items-center justify-end"
+          onClick={() => handleIconClick("housing")}
         >
-          Housing
-        </p>
-      </div>
+          <HousingIcon
+            className={`icon ${
+              activeIcon === "housing" ? "text-orange-700" : "text-gray-400"
+            }`}
+          />
+          <p
+            className={`text-xs ${
+              activeIcon === "housing" ? "text-orange-700" : "text-gray-400"
+            }`}
+          >
+            Housing
+          </p>
+        </div>
+      </Link>
 
       {/* Cart Icon and Label */}
-      <div
-        className="cursor-pointer flex flex-col items-center justify-end"
-        onClick={() => handleIconClick("cart")}
-      >
-        <CartIcon
-          className={`icon ${
-            activeIcon === "cart" ? "text-orange-700" : "text-gray-400"
-          }`}
-        />
-        <p
-          className={`text-xs ${
-            activeIcon === "cart" ? "text-orange-700" : "text-gray-400"
-          }`}
+      <Link href={"/checkout"}>
+        <div
+          className="cursor-pointer flex flex-col items-center justify-end"
+          onClick={() => handleIconClick("cart")}
         >
-          Cart
-        </p>
-      </div>
+          <CartIcon
+            className={`icon ${
+              activeIcon === "cart" ? "text-orange-700" : "text-gray-400"
+            }`}
+          />
+          <p
+            className={`text-xs ${
+              activeIcon === "cart" ? "text-orange-700" : "text-gray-400"
+            }`}
+          >
+            Cart
+          </p>
+        </div>
+      </Link>
 
       {/* Profile Icon and Label */}
       <div

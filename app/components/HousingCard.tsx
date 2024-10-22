@@ -52,7 +52,8 @@ export function HousingCard({
       <button className="bg-orange-400 mx-auto py-2 px-8 rounded-md">
         Skip housing
       </button>
-      <Card className="w-5/6 mt-4 max-w-2xl mx-auto" onClick={handleCardClick}>
+      <h1 className="mx-auto mt-4 text-xl font-bold">Available Apartments</h1>
+      <Card className="w-5/6 mt-2 max-w-2xl mx-auto" onClick={handleCardClick}>
         <CardHeader></CardHeader>
         <CardContent className="relative">
           {/* Image of the house */}

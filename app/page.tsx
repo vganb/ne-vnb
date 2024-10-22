@@ -9,7 +9,7 @@ import NavigationBottom from "./components/NavigationBottom";
 import PackageCard from "./components/PackageCard";
 import { getPackages } from "../lib/firestore";
 import { Package } from "../lib/types";
-// import { Category } from "../lib/types";
+import { useRouter } from "next/navigation";
 
 function Home() {
   const [packages, setPackages] = useState<Package[]>([]);
@@ -17,6 +17,8 @@ function Home() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All"); // State for selected category
   const [selectedCities, setSelectedCities] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const router = useRouter();
 
   useEffect(() => {
     const fetchPackages = async () => {
@@ -36,6 +38,10 @@ function Home() {
       selectedCities.length === 0 || selectedCities.includes(pkg.city);
     return matchesCategory && matchesCity;
   });
+
+  const handlePackageClick = (id: string) => {
+    router.push(`/package/${id}`);
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -76,15 +82,20 @@ function Home() {
       {/* Responsive grid layout for PackageCard */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
         {filteredPackages.map((pkg) => (
-          <PackageCard
+          <div
             key={pkg.id} // Use unique id from Firestore
-            title={pkg.title}
-            city={pkg.city}
-            description={pkg.description}
-            price={pkg.price}
-            tag={pkg.tag}
-            image={pkg.image}
-          />
+            onClick={() => handlePackageClick(pkg.id)}
+            className="cursor-pointer"
+          >
+            <PackageCard
+              title={pkg.title}
+              city={pkg.city}
+              description={pkg.description}
+              price={pkg.price}
+              tag={pkg.tag}
+              image={pkg.image}
+            />
+          </div>
         ))}
       </div>
       <div className="">

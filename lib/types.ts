@@ -1,14 +1,20 @@
 // types.ts
-export interface Package {
-  id: string; // Firestore document ID
-  title: string;
+// Updated PackageData interface in types.ts
+export interface PackageData {
+  bookingDate: string;
   city: string;
   description: string;
+  image: string;
+  packageId: string;
   price: number;
   tag: string;
-  image: string;
-  bookingDate?: string; // Add bookingDate if applicable
-  packageId?: string; // Add packageId if applicable
+  title: string;
+  highlights?: string[]; // Optional array of highlights
+  locationMap?: string; // Optional string for the location map URL
+}
+
+export interface Package extends PackageData {
+  id: string; // Firestore document ID
 }
 
 export interface PackageCardProps {

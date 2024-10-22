@@ -6,7 +6,7 @@ import NavigationBottom from "../components/NavigationBottom";
 const HousingList = () => {
   return (
     <div>
-      {/* <Header /> */}
+      <Header />
       <HousingCard
         title={""}
         city={""}
