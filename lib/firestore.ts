@@ -1,6 +1,7 @@
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "./firebase";
 import { Package } from "./types";
+import { Housing } from "./types";
 
 // Firestore collection reference
 const packagesCollectionRef = collection(db, "packages");
@@ -22,4 +23,14 @@ export const getPackages = async () => {
   const uniqueTags = [...new Set(packages.map((pkg) => pkg.tag))];
 
   return { packages, uniqueTags };
+};
+export const getHousing = async (): Promise<Housing[]> => {
+  const housingCollectionRef = collection(db, "housing");
+  const querySnapshot = await getDocs(housingCollectionRef);
+
+  // Map Firestore documents to an array of Housing objects, including the document ID
+  return querySnapshot.docs.map((doc) => ({
+    id: doc.id, // Get the document ID from Firestore
+    ...doc.data(), // Spread the rest of the document data
+  })) as Housing[]; // Cast to Housing array
 };

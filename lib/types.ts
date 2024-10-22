@@ -27,6 +27,22 @@ export interface PackageCardProps {
   tagBgColor?: string; // Optional background color for the tag
 }
 
+export interface Housing {
+  id: string;
+  title: string;
+  city: string;
+  price: number;
+  description: string;
+  image: string;
+  tag: string;
+  host: string;
+  rooms: number;
+  beds: number;
+  bathroom: number;
+  rating?: number;
+  cancellationPolicy: string;
+}
+
 interface Category {
   name: string;
 }
