@@ -10,6 +10,7 @@ import PackageCard from "./components/PackageCard";
 import { getPackages } from "../lib/firestore";
 import { Package } from "../lib/types";
 import { useRouter } from "next/navigation";
+
 function Home() {
   const [packages, setPackages] = useState<Package[]>([]);
   const [categories, setCategories] = useState<string[]>([]); // State for categories (tags)
@@ -49,6 +50,7 @@ function Home() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
+
       <div className="px-2 mt-4 grid gap-4 place-items-center">
         <DropdownFilter
           selectedCities={selectedCities}

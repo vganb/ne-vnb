@@ -6,12 +6,14 @@ import { IoArrowBackCircle } from "react-icons/io5"; // Back button icon
 import { useRouter } from "next/navigation";
 import { getHousingById } from "../../../lib/firestore"; // Import the Firestore helper
 import { Housing } from "../../../lib/types"; // Import the Housing type
+import NavigationBottom from "@/app/components/NavigationBottom";
 
 const HousingDetailPage = () => {
   const params = useParams(); // Use useParams to get the dynamic 'id' from URL
   const router = useRouter(); // For back navigation
   const [housingDetail, setHousingDetail] = useState<Housing | null>(null); // State for housing data
   const [loading, setLoading] = useState(true); // Loading state
+  const [currentImageIndex, setCurrentImageIndex] = useState<number>(0); // State for the current image index
 
   // Ensure the 'id' is treated as a string, not string[]
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
@@ -22,6 +24,9 @@ const HousingDetailPage = () => {
         try {
           const data = await getHousingById(id); // Fetch housing details by ID
           setHousingDetail(data); // Set the fetched housing data to state
+          if (data && data.images.length > 0) {
+            setCurrentImageIndex(0); // Set the first image index
+          }
         } catch (error) {
           console.error("Error fetching housing data:", error);
         } finally {
@@ -41,6 +46,12 @@ const HousingDetailPage = () => {
     return <div>Housing not found</div>; // Display error if no housing data is found
   }
 
+  const handleMainImageClick = () => {
+    // Cycle through the images in the array
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex === housingDetail.images.length - 1 ? 0 : prevIndex + 1
+    );
+  };
   return (
     <div className="relative max-w-lg mx-auto">
       {/* Back Button */}
@@ -52,18 +63,18 @@ const HousingDetailPage = () => {
         />
       </div>
 
-      {/* Main Image */}
+      {/* Main Image with Click Behavior */}
       <div className="relative">
         <img
-          src={housingDetail.images[0]}
+          src={housingDetail.images[currentImageIndex]} // Show the current image in the array
           alt={housingDetail.title}
-          className="object-cover w-full h-60 mb-4"
+          className="object-cover w-full h-60 mb-4 cursor-pointer"
+          onClick={handleMainImageClick} // Cycle to the next image when clicked
         />
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-          {/* Image indicators */}
-          <div className="w-2 h-2 bg-white rounded-full"></div>
-          <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
-          <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
+
+        {/* Image Indicator */}
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-50 text-white px-4 py-1 rounded-full text-sm">
+          {currentImageIndex + 1} / {housingDetail.images.length}
         </div>
       </div>
 
@@ -98,13 +109,14 @@ const HousingDetailPage = () => {
         </div>
 
         {/* Price and Book Button */}
-        <div className="fixed bottom-0 left-0 w-full bg-white py-4 px-6 shadow-md flex justify-between items-center">
+        <div className="mt-10 bg-orange-100 py-1 px-6 shadow-md flex justify-between items-center">
           <p className="text-2xl font-bold">${housingDetail.price}</p>
-          <button className="bg-orange-500 text-white px-8 py-3 rounded-md font-semibold">
+          <button className="bg-orange-500 text-white px-20 py-3 rounded-md font-semibold">
             Book
           </button>
         </div>
       </div>
+      <NavigationBottom />
     </div>
   );
 };

@@ -9,6 +9,8 @@ export interface PackageData {
   price: number;
   tag: string;
   title: string;
+  rating?: number; // Optional number for the rating
+  reviews?: number; // Optional number of reviews
   highlights?: string[]; // Optional array of highlights
   locationMap?: string; // Optional string for the location map URL
 }

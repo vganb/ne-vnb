@@ -29,7 +29,7 @@ const HousingList = () => {
   }
 
   return (
-    <div>
+    <div className="flex flex-col">
       <Header />
       <div className="mt-4 pl-1">
         <IoArrowBackCircle
@@ -37,6 +37,12 @@ const HousingList = () => {
           size={40}
           fill="black"
         />
+      </div>
+      <div className="mx-auto">
+        <button className="py-3 px-8 rounded-lg text-white font-bold bg-orange-400">
+          Skip housing
+        </button>
+        <p className="mt-2 text-lg font-semibold">Available Apartments</p>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {housingList.map((housing) => (
