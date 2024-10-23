@@ -4,56 +4,41 @@ import { useParams } from "next/navigation"; // Import useParams from next/navig
 import { useEffect, useState } from "react";
 import { IoArrowBackCircle } from "react-icons/io5"; // Back button icon
 import { useRouter } from "next/navigation";
-
-interface HousingDetail {
-  title: string;
-  city: string;
-  price: number;
-  description: string;
-  image: string;
-  tag: string;
-  host: string;
-}
+import { getHousingById } from "../../../lib/firestore"; // Import the Firestore helper
+import { Housing } from "../../../lib/types"; // Import the Housing type
 
 const HousingDetailPage = () => {
-  const { id } = useParams(); // Use useParams to get the dynamic 'id'
+  const params = useParams(); // Use useParams to get the dynamic 'id' from URL
   const router = useRouter(); // For back navigation
-  const [housingDetail, setHousingDetail] = useState<HousingDetail | null>(
-    null
-  );
+  const [housingDetail, setHousingDetail] = useState<Housing | null>(null); // State for housing data
+  const [loading, setLoading] = useState(true); // Loading state
+
+  // Ensure the 'id' is treated as a string, not string[]
+  const id = Array.isArray(params.id) ? params.id[0] : params.id;
 
   useEffect(() => {
     if (id) {
-      // Fetch housing details based on the ID
       const fetchHousingDetail = async () => {
-        // Simulated fetch (replace this with real API call)
-        const housingData = {
-          title: "Lorensbergsgatan 1 B",
-          city: "Hornstull, Stockholm",
-          price: 230,
-          description: `At the top of the building, you will find this fantastic 2-bedroom apartment with a wonderful and open view over Pålsundet towards Långholmen and a south-facing balcony overlooking the courtyard...`,
-          image:
-            "https://a0.muscache.com/im/pictures/miso/Hosting-713793474951553871/original/2ac03203-3d06-441c-bc82-77f28ac26c6a.jpeg?im_w=960",
-          tag: "For Rent",
-          host: "Johan",
-        };
-
-        // Simulate a delay to show loading state
-        setTimeout(() => {
-          setHousingDetail(housingData); // Fetch this data dynamically using 'id'
-        }, 1000); // Simulate network delay
+        try {
+          const data = await getHousingById(id); // Fetch housing details by ID
+          setHousingDetail(data); // Set the fetched housing data to state
+        } catch (error) {
+          console.error("Error fetching housing data:", error);
+        } finally {
+          setLoading(false); // Stop loading after fetching data
+        }
       };
 
       fetchHousingDetail();
     }
-  }, [id]); // Ensure useEffect triggers whenever 'id' changes
+  }, [id]); // Fetch data when 'id' changes
 
-  if (!id) {
-    return <div>Loading ID...</div>; // Loading state for when the 'id' is not yet available
+  if (loading) {
+    return <div>Loading housing details...</div>; // Display loading state while fetching data
   }
 
   if (!housingDetail) {
-    return <div>Loading housing details...</div>; // Loading state while fetching data
+    return <div>Housing not found</div>; // Display error if no housing data is found
   }
 
   return (
@@ -70,7 +55,7 @@ const HousingDetailPage = () => {
       {/* Main Image */}
       <div className="relative">
         <img
-          src={housingDetail.image}
+          src={housingDetail.images[0]}
           alt={housingDetail.title}
           className="object-cover w-full h-60 mb-4"
         />
@@ -81,15 +66,16 @@ const HousingDetailPage = () => {
           <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
         </div>
       </div>
-      <div className=" max-w-lg mx-auto px-4">
-        {/* Title and Location */}
+
+      {/* Title and Location */}
+      <div className="max-w-lg mx-auto px-4">
         <div className="flex justify-between items-center mb-2">
           <h1 className="text-2xl font-bold">{housingDetail.title}</h1>
           <p className="text-orange-500 font-semibold">
             ${housingDetail.price}/night
           </p>
         </div>
-        <p className="text-gray-500">Hornstull, Stockholm</p>
+        <p className="text-gray-500">{housingDetail.city}</p>
 
         {/* Rooms Info */}
         <p className="text-gray-500 mt-1">Rooms 3 Beds 2 Bathroom 1</p>
@@ -117,33 +103,6 @@ const HousingDetailPage = () => {
           <button className="bg-orange-500 text-white px-8 py-3 rounded-md font-semibold">
             Book
           </button>
-        </div>
-
-        {/* User Reviews */}
-        <div className="mt-6">
-          <h3 className="font-bold text-xl">User Reviews</h3>
-          <div className="flex items-center space-x-4 mt-4">
-            <div className="rounded-full bg-gray-300 w-10 h-10"></div>
-            <div>
-              <p className="font-semibold">Liam</p>
-              <p className="text-sm text-gray-500">★★★★★</p>
-              <p className="text-gray-700">
-                Enheten är exakt densamma som det som har illustrerats, rent och
-                bekvämt...
-              </p>
-            </div>
-          </div>
-          <div className="flex items-center space-x-4 mt-4 mb-20">
-            <div className="rounded-full bg-gray-300 w-10 h-10"></div>
-            <div>
-              <p className="font-semibold">Amanda</p>
-              <p className="text-sm text-gray-500">★★★★☆</p>
-              <p className="text-gray-700">
-                Sammantaget en ganska bra vistelse. Bra läge, elegant
-                inredning...
-              </p>
-            </div>
-          </div>
         </div>
       </div>
     </div>

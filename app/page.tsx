@@ -10,7 +10,6 @@ import PackageCard from "./components/PackageCard";
 import { getPackages } from "../lib/firestore";
 import { Package } from "../lib/types";
 import { useRouter } from "next/navigation";
-import uploadHousingData from "./components/UploadingHousingData";
 function Home() {
   const [packages, setPackages] = useState<Package[]>([]);
   const [categories, setCategories] = useState<string[]>([]); // State for categories (tags)

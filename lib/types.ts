@@ -33,7 +33,7 @@ export interface Housing {
   city: string;
   price: number;
   description: string;
-  image: string;
+  images: string[];
   tag: string;
   host: string;
   rooms: number;

@@ -50,7 +50,7 @@ const HousingList = () => {
             description={housing.description}
             tag={housing.tag}
             host={housing.host}
-            image={housing.image}
+            images={[housing.images[0]]}
           />
         ))}
       </div>

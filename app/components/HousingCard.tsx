@@ -19,7 +19,7 @@ interface HousingCardProps {
   description: string;
   tag: string;
   host: string;
-  image: string;
+  images: string[];
   tagBgColor?: string; // Optional background color for the tag
 }
 
@@ -30,13 +30,13 @@ export function HousingCard({
   price,
   description,
   tag,
-  image,
+  images = [],
   tagBgColor = "bg-orange-500", // Default background color for housing tag
 }: HousingCardProps) {
   const router = useRouter();
 
   const handleCardClick = () => {
-    // Navigate to the housing detail page
+    // Navigate to the housing detail page using the housing id
     router.push(`/housing/${id}`);
   };
 
@@ -50,7 +50,7 @@ export function HousingCard({
         <CardContent className="relative">
           {/* Image of the house */}
           <img
-            src={image} // Use dynamic image from props
+            src={images[0]} // Use dynamic image from props
             alt={title}
             className="rounded-md object-cover h-48 w-full"
           />

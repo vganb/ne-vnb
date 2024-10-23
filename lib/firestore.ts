@@ -1,4 +1,4 @@
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, getDoc, doc } from "firebase/firestore";
 import { db } from "./firebase";
 import { Package } from "./types";
 import { Housing } from "./types";
@@ -33,4 +33,15 @@ export const getHousing = async (): Promise<Housing[]> => {
     id: doc.id, // Get the document ID from Firestore
     ...doc.data(), // Spread the rest of the document data
   })) as Housing[]; // Cast to Housing array
+};
+
+export const getHousingById = async (id: string): Promise<Housing | null> => {
+  const housingDocRef = doc(db, "housing", id);
+  const housingDoc = await getDoc(housingDocRef);
+
+  if (housingDoc.exists()) {
+    return { id: housingDoc.id, ...housingDoc.data() } as Housing;
+  }
+
+  return null; // Return null if no document exists
 };
