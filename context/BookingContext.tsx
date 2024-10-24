@@ -1,37 +1,32 @@
-// context/BookingContext.tsx
 "use client";
-import { createContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState } from "react";
 
 interface BookingContextType {
   bookingId: string | null;
-  packageId: string | null;
-  housingId: string | null;
-  setPackageId: (id: string) => void;
-  setHousingId: (id: string) => void;
-  setBookingId: (id: string) => void;
+  setBookingId: (id: string | null) => void;
 }
 
-export const BookingContext = createContext<BookingContextType | undefined>(
-  undefined
-);
+const BookingContext = createContext<BookingContextType | undefined>(undefined);
 
-export const BookingProvider = ({ children }: { children: ReactNode }) => {
+export const BookingProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   const [bookingId, setBookingId] = useState<string | null>(null);
-  const [packageId, setPackageId] = useState<string | null>(null);
-  const [housingId, setHousingId] = useState<string | null>(null);
 
   return (
-    <BookingContext.Provider
-      value={{
-        bookingId,
-        packageId,
-        housingId,
-        setPackageId,
-        setHousingId,
-        setBookingId,
-      }}
-    >
+    <BookingContext.Provider value={{ bookingId, setBookingId }}>
       {children}
     </BookingContext.Provider>
   );
+};
+
+// Custom hook to use the booking context
+export const useBookingContext = () => {
+  const context = useContext(BookingContext);
+  if (!context) {
+    throw new Error("useBookingContext must be used within a BookingProvider");
+  }
+  return context;
 };

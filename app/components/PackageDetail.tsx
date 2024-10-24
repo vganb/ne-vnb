@@ -19,6 +19,8 @@ const PackageDetail: React.FC<PackageDetailProps> = ({
 }) => {
   const [userId, setUserId] = useState<string | null>(null); // Store the userId
   const [loading, setLoading] = useState(false); // Loading state for the booking
+  const { setBookingId } = useBookingContext(); // Access setBookingId from context
+
   const router = useRouter();
 
   const handleBookNow = async () => {
@@ -27,23 +29,23 @@ const PackageDetail: React.FC<PackageDetailProps> = ({
       return;
     }
 
-    setLoading(true); // Start loading when booking is initiated
+    setLoading(true);
     try {
       const bookingRef = await addDoc(collection(db, "bookings"), {
-        userId: userId,
-        packageId: packageData?.packageId, // Use optional chaining to avoid errors
+        userId,
+        packageId: packageData?.packageId,
         packageTitle: packageData?.title,
         price: packageData?.price,
         status: "pending",
         createdAt: new Date().toISOString(),
       });
 
-      // Redirect to the housing page after successful booking
+      setBookingId(bookingRef.id); // Save bookingId in context
       router.push(`/housing?bookingId=${bookingRef.id}`);
     } catch (error) {
       console.error("Error adding document: ", error);
     } finally {
-      setLoading(false); // Stop loading after booking
+      setLoading(false);
     }
   };
 
