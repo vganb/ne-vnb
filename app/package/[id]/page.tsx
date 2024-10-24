@@ -9,7 +9,7 @@ import { PackageData } from "../../../lib/types"; // Import the PackageData type
 
 const PackageDetailPage = () => {
   const router = useRouter();
-  const params = useParams(); // Get the params object from Next.js
+  const params = useParams();
   const { id } = params as { id: string }; // Ensure `id` is a string
 
   const [packageData, setPackageData] = useState<PackageData | null>(null); // Use the defined type
@@ -22,8 +22,11 @@ const PackageDetailPage = () => {
         try {
           const packageDoc = await getDoc(doc(db, "packages", id)); // Fetch package by ID from Firestore
           if (packageDoc.exists()) {
-            // Set the state with the fetched data, making sure TypeScript knows it's PackageData
-            setPackageData(packageDoc.data() as PackageData); // Cast DocumentData to PackageData
+            // Ensure Firestore document ID is added as `packageId`
+            setPackageData({
+              ...(packageDoc.data() as PackageData),
+              packageId: packageDoc.id, // Attach Firestore document ID to `packageId`
+            });
           } else {
             console.error("No such package found!");
           }

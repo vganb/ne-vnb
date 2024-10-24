@@ -24,6 +24,21 @@ export const getPackages = async () => {
 
   return { packages, uniqueTags };
 };
+
+export const getPackageById = async (id: string) => {
+  const docRef = doc(db, "packages", id);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    return {
+      ...docSnap.data(),
+      packageId: docSnap.id, // Map Firestore document ID to `packageId`
+    };
+  } else {
+    throw new Error("Package not found");
+  }
+};
+
 export const getHousing = async (): Promise<Housing[]> => {
   const housingCollectionRef = collection(db, "housing");
   const querySnapshot = await getDocs(housingCollectionRef);

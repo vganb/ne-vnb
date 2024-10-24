@@ -1,21 +1,67 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IoArrowBackCircle } from "react-icons/io5";
-
-// Import the PackageData interface from where you defined it
-import { PackageData } from "../../lib/types"; // Ensure the path is correct
+import { collection, addDoc } from "firebase/firestore";
+import { db, auth } from "../../lib/firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import { useRouter } from "next/navigation";
+import { PackageData } from "../../lib/types";
+import { useBookingContext } from "../../context/BookingContext"; // Import the booking context
 
 // Define the props for the PackageDetail component
 interface PackageDetailProps {
-  packageData: PackageData; // Type for packageData
-  onGoBack: () => void; // Function type for onGoBack
+  packageData: PackageData | null; // Updated to accept null as initial state
+  onGoBack: () => void;
 }
 
 const PackageDetail: React.FC<PackageDetailProps> = ({
   packageData,
   onGoBack,
 }) => {
+  const [userId, setUserId] = useState<string | null>(null); // Store the userId
+  const [loading, setLoading] = useState(false); // Loading state for the booking
+  const router = useRouter();
+
+  const handleBookNow = async () => {
+    if (!userId) {
+      console.error("User is not authenticated!");
+      return;
+    }
+
+    setLoading(true); // Start loading when booking is initiated
+    try {
+      const bookingRef = await addDoc(collection(db, "bookings"), {
+        userId: userId,
+        packageId: packageData?.packageId, // Use optional chaining to avoid errors
+        packageTitle: packageData?.title,
+        price: packageData?.price,
+        status: "pending",
+        createdAt: new Date().toISOString(),
+      });
+
+      // Redirect to the housing page after successful booking
+      router.push(`/housing?bookingId=${bookingRef.id}`);
+    } catch (error) {
+      console.error("Error adding document: ", error);
+    } finally {
+      setLoading(false); // Stop loading after booking
+    }
+  };
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserId(user.uid);
+      } else {
+        setUserId(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  // Loading state
   if (!packageData) {
-    return <div>Package not found!</div>;
+    return <div>Loading package details...</div>;
   }
 
   return (
@@ -40,7 +86,7 @@ const PackageDetail: React.FC<PackageDetailProps> = ({
       <div className="flex justify-between items-start">
         <h1 className="text-xl font-extrabold">{packageData.title}</h1>
         <span className="text-sm font-bold text-gray-400">
-          {/* {packageData.duration} */}3 days
+          {packageData.duration}
         </span>
       </div>
 
@@ -87,8 +133,12 @@ const PackageDetail: React.FC<PackageDetailProps> = ({
 
       {/* Book Button */}
       <div className="mt-6 mb-20">
-        <button className="w-full bg-orange-500 text-white py-3 rounded-md text-lg font-semibold hover:bg-orange-600">
-          Book
+        <button
+          onClick={handleBookNow}
+          className="w-full bg-orange-500 text-white py-3 rounded-md text-lg font-semibold hover:bg-orange-600"
+          disabled={loading} // Disable button while booking is processing
+        >
+          {loading ? "Booking..." : "Book"}
         </button>
       </div>
     </div>
