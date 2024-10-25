@@ -31,6 +31,7 @@ const PackageDetail: React.FC<PackageDetailProps> = ({
       toast({
         description: "You need to login to book a package!",
       });
+      router.push("/");
       return;
     }
 
