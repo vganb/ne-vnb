@@ -4,6 +4,7 @@ import { AuthProvider } from "../context/AuthContext";
 import { BookingProvider } from "../context/BookingContext"; // Import the BookingProvider
 
 import "./globals.css";
+import { Toaster } from "./components/ui/toaster";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -35,6 +36,7 @@ export default function RootLayout({
           <BookingProvider>
             {/* Wrap children with BookingProvider */}
             {children}
+            <Toaster />
           </BookingProvider>
         </AuthProvider>
       </body>

@@ -6,6 +6,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { PackageData } from "../../lib/types";
 import { useBookingContext } from "../../context/BookingContext"; // Import the booking context
+import { useToast } from "@/hooks/use-toast"; // Import useToast
 
 // Define the props for the PackageDetail component
 interface PackageDetailProps {
@@ -20,12 +21,16 @@ const PackageDetail: React.FC<PackageDetailProps> = ({
   const [userId, setUserId] = useState<string | null>(null); // Store the userId
   const [loading, setLoading] = useState(false); // Loading state for the booking
   const { setBookingId } = useBookingContext(); // Access setBookingId from context
+  const { toast } = useToast(); // Get the toast function from useToast
 
   const router = useRouter();
 
   const handleBookNow = async () => {
     if (!userId) {
       console.error("User is not authenticated!");
+      toast({
+        description: "You need to login to book a package!",
+      });
       return;
     }
 
@@ -38,6 +43,10 @@ const PackageDetail: React.FC<PackageDetailProps> = ({
         price: packageData?.price,
         status: "pending",
         createdAt: new Date().toISOString(),
+      });
+
+      toast({
+        description: "Your package has been successfully booked!",
       });
 
       setBookingId(bookingRef.id); // Save bookingId in context

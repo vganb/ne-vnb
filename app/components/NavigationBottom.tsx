@@ -6,12 +6,14 @@ import CartIcon from "./CartIcon";
 import ProfileIcon from "./ProfileIcon";
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation"; // Import usePathname from app router
-
+import { usePathname, useRouter } from "next/navigation"; // Import usePathname from app router
+import { useAuth } from "@/context/AuthContext";
 function NavigationBottom() {
   const [activeIcon, setActiveIcon] = useState("package");
-  const pathname = usePathname(); // Use usePathname instead of useRouter
+  const { user, logout } = useAuth(); // Get the user and logout function from AuthContext
 
+  const pathname = usePathname(); // Use usePathname instead of useRouter
+  const router = useRouter();
   useEffect(() => {
     if (pathname.includes("housing")) {
       setActiveIcon("housing");
@@ -27,6 +29,16 @@ function NavigationBottom() {
   const handleIconClick = (icon: string) => {
     setActiveIcon(icon);
   };
+
+  const handleProfileClick = async () => {
+    if (user) {
+      await logout();
+      router.push("/login");
+    } else {
+      router.push("/login");
+    }
+  };
+
   return (
     <div className="fixed bottom-0 left-0 w-full sm:hidden flex justify-evenly items-center border-t-4 border-purple-700 h-16 bg-white z-50">
       <Link href={"/"}>
@@ -93,7 +105,10 @@ function NavigationBottom() {
       {/* Profile Icon and Label */}
       <div
         className="cursor-pointer flex flex-col items-center justify-end"
-        onClick={() => handleIconClick("profile")}
+        onClick={() => {
+          handleIconClick("profile");
+          handleProfileClick();
+        }}
       >
         <ProfileIcon
           className={`icon ${

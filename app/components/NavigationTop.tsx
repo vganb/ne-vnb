@@ -84,23 +84,25 @@ function NavigationTop() {
       </Link>
 
       {/* Cart Icon and Label */}
-      <div
-        className="cursor-pointer flex flex-col items-center justify-end"
-        onClick={() => handleIconClick("cart")}
-      >
-        <CartIcon
-          className={`icon ${
-            activeIcon === "cart" ? "text-orange-700" : "text-gray-400"
-          }`}
-        />
-        <p
-          className={`text-xs ${
-            activeIcon === "cart" ? "text-orange-700" : "text-gray-400"
-          }`}
+      <Link href={"/checkout"}>
+        <div
+          className="cursor-pointer flex flex-col items-center justify-end"
+          onClick={() => handleIconClick("cart")}
         >
-          Cart
-        </p>
-      </div>
+          <CartIcon
+            className={`icon ${
+              activeIcon === "cart" ? "text-orange-700" : "text-gray-400"
+            }`}
+          />
+          <p
+            className={`text-xs ${
+              activeIcon === "cart" ? "text-orange-700" : "text-gray-400"
+            }`}
+          >
+            Cart
+          </p>
+        </div>
+      </Link>
 
       {/* Profile Icon and Label */}
       <div
