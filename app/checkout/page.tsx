@@ -6,13 +6,17 @@ import {
   query,
   where,
   getDocs,
+  deleteDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { db, auth } from "../../lib/firebase";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
+import { IoCloseCircle } from "react-icons/io5";
 import NavigationBottom from "../components/NavigationBottom";
+import Header from "../components/Header";
 
 interface PackageData {
   title: string;
@@ -41,19 +45,32 @@ const CheckoutPage = () => {
   const [bookingData, setBookingData] = useState<BookingData | null>(null);
   const [packageData, setPackageData] = useState<PackageData | null>(null);
   const [housingData, setHousingData] = useState<HousingData | null>(null);
-  // Booking data type
   const [loading, setLoading] = useState(true); // Loading state
   const [isAuthenticated, setIsAuthenticated] = useState(false); // Authentication state
   const [hasBookings, setHasBookings] = useState(false); // Check if user has bookings
   const router = useRouter();
   const searchParams = useSearchParams();
-  const bookingId = searchParams.get("bookingId");
+  const bookingIdFromUrl = searchParams.get("bookingId");
+  const [bookingId, setBookingId] = useState<string | null>(bookingIdFromUrl);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setIsAuthenticated(true);
-        await fetchUserBookings(user.uid);
+
+        // If bookingId is not set, try retrieving from localStorage
+        if (!bookingId) {
+          const savedBookingId = localStorage.getItem("currentBookingId");
+          setBookingId(savedBookingId);
+        }
+
+        // If we have a bookingId, fetch the booking details
+        if (bookingId) {
+          localStorage.setItem("currentBookingId", bookingId);
+          await fetchUserBookings(bookingId);
+        } else {
+          setLoading(false); // Stop loading if no booking ID is found
+        }
       } else {
         setIsAuthenticated(false);
         setLoading(false);
@@ -64,66 +81,30 @@ const CheckoutPage = () => {
   }, [bookingId]);
 
   // Fetch user bookings from Firestore
-  const fetchUserBookings = async (userId: string) => {
-    if (bookingId) {
-      try {
-        // Step 1: Fetch the booking details
-        const bookingDocRef = doc(db, "bookings", bookingId);
-        const bookingDoc = await getDoc(bookingDocRef);
+  const fetchUserBookings = async (id: string) => {
+    try {
+      setLoading(true); // Set loading state to true when starting the fetch
+      // Step 1: Fetch the booking details
+      const bookingDocRef = doc(db, "bookings", id);
+      const bookingDoc = await getDoc(bookingDocRef);
 
-        if (bookingDoc.exists()) {
-          const bookingData = bookingDoc.data() as BookingData;
-          setBookingData(bookingData);
-          setHasBookings(true);
-
-          // Step 2: Fetch the package data using the packageId from the booking
-          if (bookingData.packageId) {
-            const packageDocRef = doc(db, "packages", bookingData.packageId);
-            const packageDoc = await getDoc(packageDocRef);
-            if (packageDoc.exists()) {
-              setPackageData(packageDoc.data() as PackageData);
-            }
-          }
-
-          // Step 3: Fetch the housing data using the housingId from the booking (if available)
-          if (bookingData.housingId) {
-            const housingDocRef = doc(db, "housing", bookingData.housingId);
-            const housingDoc = await getDoc(housingDocRef);
-            if (housingDoc.exists()) {
-              setHousingData(housingDoc.data() as HousingData);
-            }
-          }
-        }
-      } catch (error) {
-        console.error("Error fetching booking data:", error);
-      } finally {
-        setLoading(false);
-      }
-    } else {
-      // If no specific bookingId, check for any existing bookings for the user
-      const userBookingsQuery = query(
-        collection(db, "bookings"),
-        where("userId", "==", userId)
-      );
-      const querySnapshot = await getDocs(userBookingsQuery);
-
-      if (!querySnapshot.empty) {
-        const firstBooking = querySnapshot.docs[0].data() as BookingData;
-        setBookingData(firstBooking);
+      if (bookingDoc.exists()) {
+        const bookingData = bookingDoc.data() as BookingData;
+        setBookingData(bookingData);
         setHasBookings(true);
 
-        // Fetch package data for the first booking
-        if (firstBooking.packageId) {
-          const packageDocRef = doc(db, "packages", firstBooking.packageId);
+        // Step 2: Fetch the package data using the packageId from the booking
+        if (bookingData.packageId) {
+          const packageDocRef = doc(db, "packages", bookingData.packageId);
           const packageDoc = await getDoc(packageDocRef);
           if (packageDoc.exists()) {
             setPackageData(packageDoc.data() as PackageData);
           }
         }
 
-        // Fetch housing data for the first booking (if available)
-        if (firstBooking.housingId) {
-          const housingDocRef = doc(db, "housing", firstBooking.housingId);
+        // Step 3: Fetch the housing data using the housingId from the booking (if available)
+        if (bookingData.housingId) {
+          const housingDocRef = doc(db, "housing", bookingData.housingId);
           const housingDoc = await getDoc(housingDocRef);
           if (housingDoc.exists()) {
             setHousingData(housingDoc.data() as HousingData);
@@ -132,7 +113,50 @@ const CheckoutPage = () => {
       } else {
         setHasBookings(false);
       }
-      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching booking data:", error);
+    } finally {
+      setLoading(false); // Ensure loading is set to false after fetching
+    }
+  };
+
+  const clearBookingState = () => {
+    setBookingData(null);
+    setPackageData(null);
+    setHousingData(null);
+    setHasBookings(false);
+    localStorage.removeItem("currentBookingId");
+    setBookingId(null);
+  };
+
+  const handleDeleteBooking = async () => {
+    if (bookingId) {
+      try {
+        // Delete the booking document from Firestore
+        await deleteDoc(doc(db, "bookings", bookingId));
+        localStorage.removeItem("currentBookingId");
+        clearBookingState();
+        // Redirect to the home page
+        router.push("/");
+      } catch (error) {
+        console.error("Error deleting booking:", error);
+      }
+    }
+  };
+
+  const handleConfirmBooking = async () => {
+    if (bookingId) {
+      try {
+        // Update the booking status to "booked" in Firestore
+        await updateDoc(doc(db, "bookings", bookingId), {
+          status: "booked",
+        });
+        clearBookingState();
+        // Redirect to the payment confirmation page or wherever necessary
+        router.push("/paymentmethod");
+      } catch (error) {
+        console.error("Error updating booking status:", error);
+      }
     }
   };
 
@@ -142,7 +166,9 @@ const CheckoutPage = () => {
 
   if (!isAuthenticated || !hasBookings) {
     return (
-      <div className="max-w-2xl mx-auto mt-6 p-4 text-center">
+      <div className="w-full mx-auto text-center">
+        <Header />
+
         <h1 className="text-3xl font-bold mb-4">Your Cart is Empty</h1>
         <p className="text-lg">
           {isAuthenticated
@@ -155,6 +181,7 @@ const CheckoutPage = () => {
         >
           {isAuthenticated ? "Browse Packages" : "Login"}
         </button>
+        <NavigationBottom />
       </div>
     );
   }
@@ -163,8 +190,12 @@ const CheckoutPage = () => {
     (bookingData?.price ?? 0) + (bookingData?.housingPrice ?? 0);
 
   return (
-    <div className="max-w-2xl mx-auto mt-6 p-4">
-      <h1 className="text-3xl font-bold mb-4">Checkout</h1>
+    <div className="max-w-2xl mx-auto mt-2 p-4">
+      <div className="flex justify-items-center justify-between ">
+        <IoCloseCircle size={40} onClick={handleDeleteBooking} />
+
+        <h1 className="text-3xl font-bold mb-4">Checkout</h1>
+      </div>
 
       {/* Package Section */}
       {packageData && (
@@ -172,7 +203,7 @@ const CheckoutPage = () => {
           <h2 className="text-xl font-semibold mb-2">Package</h2>
           <div className="border rounded-lg p-4">
             <img
-              src={packageData.image} // Display the package image from the package data
+              src={packageData.image}
               alt={packageData.title}
               className="w-full h-40 object-cover rounded-md mb-4"
             />
@@ -191,7 +222,7 @@ const CheckoutPage = () => {
           <h2 className="text-xl font-semibold mb-2">Housing</h2>
           <div className="border rounded-lg p-4">
             <img
-              src={housingData.images[0]} // Display the housing image from the housing data
+              src={housingData.images[0]}
               alt={housingData.title}
               className="w-full h-40 object-cover rounded-md mb-4"
             />
@@ -210,22 +241,11 @@ const CheckoutPage = () => {
         <p className="text-2xl font-bold">${totalCost}</p>
       </div>
 
-      {/* Conditional Buttons */}
-      <div className="mt-6 flex flex-col gap-4">
-        {/* Display "Continue to Book Housing" only if housing is not booked yet */}
-        {!housingData && (
-          <button
-            className="w-full bg-orange-500 text-white py-3 rounded-md text-lg font-semibold hover:bg-orange-600"
-            onClick={() => router.push("/housing")}
-          >
-            Continue to Book Housing
-          </button>
-        )}
-
-        {/* Display "Confirm Booking" button for both scenarios */}
+      {/* Confirm Booking Button */}
+      <div className="mt-6 mb-10">
         <button
-          className="w-full bg-green-500 text-white py-3 rounded-md text-lg font-semibold hover:bg-green-600 mb-16"
-          onClick={() => router.push("/confirmation")}
+          className="w-full bg-green-500 text-white py-3 rounded-md text-lg font-semibold hover:bg-green-600"
+          onClick={handleConfirmBooking}
         >
           Confirm Booking
         </button>

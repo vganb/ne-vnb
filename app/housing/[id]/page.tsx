@@ -9,6 +9,7 @@ import NavigationBottom from "@/app/components/NavigationBottom";
 import { useBookingContext } from "../../../context/BookingContext"; // Use the booking context
 import { doc, updateDoc } from "firebase/firestore"; // Import Firestore update functionality
 import { db } from "../../../lib/firebase"; // Adjust the path based on your folder structure
+import { useToast } from "@/hooks/use-toast";
 
 const HousingDetailPage = () => {
   const params = useParams();
@@ -17,6 +18,7 @@ const HousingDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
   const { bookingId } = useBookingContext(); // Get booking ID from the context
+  const { toast } = useToast();
 
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
 
@@ -65,6 +67,9 @@ const HousingDetailPage = () => {
       }
     } else {
       console.error("No bookingId found");
+      toast({
+        description: "You need to login to book a package and housing!",
+      });
     }
   };
 

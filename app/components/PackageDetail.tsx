@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { IoArrowBackCircle } from "react-icons/io5";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, updateDoc, doc } from "firebase/firestore";
 import { db, auth } from "../../lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/navigation";
@@ -44,6 +44,9 @@ const PackageDetail: React.FC<PackageDetailProps> = ({
         price: packageData?.price,
         status: "pending",
         createdAt: new Date().toISOString(),
+      });
+      await updateDoc(doc(db, "bookings", bookingRef.id), {
+        orderId: bookingRef.id,
       });
 
       toast({

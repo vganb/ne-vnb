@@ -8,12 +8,14 @@ import { useRouter, useSearchParams } from "next/navigation"; // Hook to access 
 import { getHousing } from "../../lib/firestore"; // Firestore fetch function
 import { Housing } from "../../lib/types"; // Housing type
 import { useBookingContext } from "../../context/BookingContext"; // Booking context
+import { useToast } from "@/hooks/use-toast"; // Custom toast hook
 
 const HousingList = () => {
   const [housingList, setHousingList] = useState<Housing[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const searchParams = useSearchParams(); // Access URL search parameters
+  const { toast } = useToast(); // Custom toast hook
 
   // Get bookingId from context and also define setter from context
   const { bookingId, setBookingId } = useBookingContext();
@@ -43,6 +45,10 @@ const HousingList = () => {
       router.push(`/checkout?bookingId=${bookingId}`); // Navigate to checkout with bookingId
     } else {
       console.error("No bookingId found");
+      router.push("/"); // Navigate to home if no bookingId is found
+      toast({
+        description: "You need to login to continue the booking",
+      });
     }
   };
 
