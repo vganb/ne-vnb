@@ -6,20 +6,34 @@ import ProfileIcon from "../components/ProfileIcon";
 import BookingsIcon from "../components/BookingsIcon";
 import { IoIosArrowForward } from "react-icons/io";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
 const ProfilePage = () => {
+  const { user, logout } = useAuth(); // Get the user and logout function from AuthContext
+
   const router = useRouter();
+  const handleLogout = async () => {
+    if (user) {
+      await logout();
+      router.push("/");
+    } else {
+      router.push("/login");
+    }
+  };
   return (
     <div>
       <div
         onClick={() => router.push("/")}
-        className="flex gap-12 items-center p-4"
+        className="flex gap-12 items-center p-4 border-b-2 border-gray-300"
       >
         <IoArrowBackCircle size={38} />
         <h1 className="text-xl ">Profile</h1>
       </div>
       {/* Account Settings */}
-      <div className="flex items-center justify-between py-4 px-12 border-2 rounded-lg border-red-400">
+      <div
+        onClick={() => router.push("/accountsettings")}
+        className="flex items-center justify-between py-4 px-12 cursor-pointer"
+      >
         <div className="flex flex-col items-center">
           <ProfileIcon className={""} />
         </div>
@@ -30,7 +44,7 @@ const ProfilePage = () => {
 
       <div
         onClick={() => router.push("/mybookings")}
-        className="flex items-center justify-between py-4 px-12 border-2 rounded-lg border-red-400"
+        className="flex items-center justify-between py-4 px-12  cursor-pointer"
       >
         <div className="flex flex-col items-center">
           <BookingsIcon className={""} />
@@ -38,6 +52,12 @@ const ProfilePage = () => {
         <p>My Bookings</p>
         <IoIosArrowForward size={25} />
       </div>
+      <button
+        onClick={handleLogout}
+        className="bg-orange-600 px-6 py-4 rounded-md mt-20 text-white"
+      >
+        {user ? "Logout" : "Login"}
+      </button>
       {/* Navigation Bottom */}
       <NavigationBottom />
     </div>
