@@ -32,7 +32,6 @@ function NavigationBottom() {
 
   const handleProfileClick = async () => {
     if (user) {
-      await logout();
       router.push("/profile");
     } else {
       router.push("/login");

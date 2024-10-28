@@ -1,5 +1,6 @@
+// context/AuthContext.tsx
 "use client";
-import { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
@@ -8,7 +9,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-import { auth } from "../lib/firebase"; // Firebase config from lib/firebase.ts
+import { auth } from "../lib/firebase"; // Import your Firebase configuration
 import { useRouter } from "next/navigation";
 
 // Define the shape of your context
@@ -45,7 +46,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       await signInWithPopup(auth, provider);
       router.push("/dashboard");
     } catch (error) {
-      console.error("Google sign in with error:", error);
+      console.error("Google sign in error:", error);
     }
   };
 

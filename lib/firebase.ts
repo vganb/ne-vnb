@@ -1,6 +1,10 @@
 // lib/firebase.ts
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import {
+  browserLocalPersistence,
+  getAuth,
+  setPersistence,
+} from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -13,7 +17,16 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const db = getFirestore(app);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-// export { auth, db };
+setPersistence(auth, browserLocalPersistence)
+  .then(() => {
+    // Existing and future Auth states will now persist across tabs
+    console.log("Firebase Auth persistence set to local");
+  })
+  .catch((error) => {
+    console.error("Error setting Firebase persistence:", error);
+  });
+
+export { auth, db };
