@@ -9,7 +9,6 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import NavigationBottom from "../components/NavigationBottom";
 
 interface BookingData {
-  push(bookingData: BookingData): unknown;
   id: string;
   packageTitle: string;
   packageId: string;
