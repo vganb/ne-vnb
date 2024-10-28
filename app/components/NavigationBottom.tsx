@@ -33,7 +33,7 @@ function NavigationBottom() {
   const handleProfileClick = async () => {
     if (user) {
       await logout();
-      router.push("/login");
+      router.push("/profile");
     } else {
       router.push("/login");
     }
@@ -120,7 +120,8 @@ function NavigationBottom() {
             activeIcon === "profile" ? "text-orange-700" : "text-gray-400"
           }`}
         >
-          Login
+          {user ? "Profile" : "Login"}{" "}
+          {/* Display Profile if logged in, Login otherwise */}
         </p>
       </div>
     </div>

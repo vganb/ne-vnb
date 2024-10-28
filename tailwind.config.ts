@@ -11,6 +11,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      animation: {
+        spin: "spin 1s linear infinite",
+      },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
