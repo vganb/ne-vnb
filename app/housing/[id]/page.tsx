@@ -70,6 +70,7 @@ const HousingDetailPage = () => {
       toast({
         description: "You need to login to book a package and housing!",
       });
+      router.push("/");
     }
   };
 
