@@ -119,8 +119,8 @@ function NavigationBottom() {
             activeIcon === "profile" ? "text-orange-700" : "text-gray-400"
           }`}
         >
-          {user ? "Profile" : "Login"}{" "}
           {/* Display Profile if logged in, Login otherwise */}
+          {user ? "Profile" : "Login"}{" "}
         </p>
       </div>
     </div>

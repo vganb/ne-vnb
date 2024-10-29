@@ -1,6 +1,21 @@
 // types.ts
 // Updated PackageData interface in types.ts
 // types.ts
+
+export interface Booking {
+  createdAt: string;
+  housingCity: string;
+  housingHost: string;
+  housingId: string;
+  housingPrice: number;
+  housingTitle: string;
+  orderId: string;
+  packageId: string;
+  packageTitle: string;
+  price: number;
+  status: string;
+  userId: string;
+}
 export interface PackageData {
   bookingDate: string;
   city: string;

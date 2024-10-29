@@ -1,10 +1,19 @@
-import { collection, getDocs, getDoc, doc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  getDoc,
+  doc,
+  query,
+  where,
+  QueryDocumentSnapshot,
+} from "firebase/firestore";
 import { db } from "./firebase";
-import { Package } from "./types";
-import { Housing } from "./types";
+import { Booking, Package, PackageData, Housing } from "./types";
 
 // Firestore collection reference
 const packagesCollectionRef = collection(db, "packages");
+const housingCollectionRef = collection(db, "housing");
+const bookingsCollectionRef = collection(db, "bookings");
 
 // Function to get all packages from Firestore and return both packages and unique tags (categories)
 export const getPackages = async () => {
@@ -59,4 +68,51 @@ export const getHousingById = async (id: string): Promise<Housing | null> => {
   }
 
   return null; // Return null if no document exists
+};
+
+// New function to fetch user-specific bookings along with package and housing details
+// firestore.ts
+export const fetchBookings = async (userId: string) => {
+  const bookingsQuery = query(
+    bookingsCollectionRef,
+    where("userId", "==", userId)
+  );
+  const bookingSnapshots = await getDocs(bookingsQuery);
+
+  const bookings = await Promise.all(
+    bookingSnapshots.docs.map(async (docSnapshot) => {
+      const bookingData = (
+        docSnapshot as QueryDocumentSnapshot<Booking>
+      ).data();
+
+      // Fetch package details if a packageId exists
+      let packageData: PackageData | undefined = undefined;
+      if (bookingData.packageId) {
+        const packageRef = doc(db, "packages", bookingData.packageId);
+        const packageSnapshot = await getDoc(packageRef);
+        packageData = packageSnapshot.exists()
+          ? (packageSnapshot.data() as PackageData)
+          : undefined;
+      }
+
+      // Fetch housing details if a housingId exists
+      let housingData: Housing | undefined = undefined;
+      if (bookingData.housingId) {
+        const housingRef = doc(db, "housing", bookingData.housingId);
+        const housingSnapshot = await getDoc(housingRef);
+        housingData = housingSnapshot.exists()
+          ? (housingSnapshot.data() as Housing)
+          : undefined;
+      }
+
+      return {
+        id: docSnapshot.id,
+        ...bookingData,
+        packageData,
+        housingData,
+      };
+    })
+  );
+
+  return bookings;
 };

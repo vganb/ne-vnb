@@ -33,8 +33,7 @@ function NavigationTop() {
 
   const handleProfileClick = async () => {
     if (user) {
-      await logout();
-      router.push("/login");
+      router.push("/profile");
     } else {
       router.push("/login");
     }
@@ -122,7 +121,7 @@ function NavigationTop() {
             activeIcon === "profile" ? "text-orange-700" : "text-gray-400"
           }`}
         >
-          {user ? "Logout" : "Login"}
+          {user ? "Profile" : "Login"}{" "}
         </p>
       </div>
     </div>
