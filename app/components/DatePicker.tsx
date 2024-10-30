@@ -32,8 +32,8 @@ function DatePickerWithRange({
   className,
 }: React.HTMLAttributes<HTMLDivElement>) {
   const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(2024, 9, 20),
-    to: addDays(new Date(2024, 9, 20), 3),
+    from: new Date(),
+    to: addDays(new Date(), 3),
   });
 
   const isSmallScreen = useMediaQuery("(max-width: 640px)");
