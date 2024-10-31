@@ -15,7 +15,7 @@ const SignUpPage = () => {
     e.preventDefault();
     try {
       await createUserWithEmailAndPassword(auth, email, password); // Firebase sign-up
-      router.push("/dashboard"); // Redirect to dashboard after sign-up
+      router.push("/"); // Redirect to dashboard after sign-up
     } catch {
       setError("Failed to create an account");
     }
