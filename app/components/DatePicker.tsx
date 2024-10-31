@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
 import { Calendar } from "./ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { useBookingContext } from "@/context/BookingContext";
 
 function useMediaQuery(query: string): boolean {
   const [matches, setMatches] = React.useState(false);
@@ -31,12 +32,28 @@ function useMediaQuery(query: string): boolean {
 function DatePickerWithRange({
   className,
 }: React.HTMLAttributes<HTMLDivElement>) {
+  const { setBookingStartDate, setBookingEndDate } = useBookingContext(); // Access context setters
+  const defaultStartDate = new Date();
+  const defaultEndDate = addDays(new Date(), 3);
+
   const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(),
-    to: addDays(new Date(), 3),
+    from: defaultStartDate,
+    to: defaultEndDate,
   });
 
   const isSmallScreen = useMediaQuery("(max-width: 640px)");
+
+  React.useEffect(() => {
+    // Set default dates in context on mount if no dates are selected
+    setBookingStartDate(defaultStartDate);
+    setBookingEndDate(defaultEndDate);
+  }, [setBookingStartDate, setBookingEndDate]);
+
+  const handleDateSelect = (range: DateRange | undefined) => {
+    setDate(range);
+    setBookingStartDate(range?.from || defaultStartDate);
+    setBookingEndDate(range?.to || defaultEndDate);
+  };
 
   return (
     <div
@@ -82,7 +99,7 @@ function DatePickerWithRange({
             mode="range"
             defaultMonth={date?.from}
             selected={date}
-            onSelect={setDate}
+            onSelect={handleDateSelect}
             numberOfMonths={isSmallScreen ? 1 : 2}
           />
         </PopoverContent>

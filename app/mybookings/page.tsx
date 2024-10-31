@@ -39,6 +39,8 @@ interface EnrichedBookingData {
 
   status: string;
   createdAt: string;
+  startDate?: string; // Add startDate
+  endDate?: string; // Add endDate
 }
 
 const MyBookingsPage = () => {
@@ -135,6 +137,8 @@ const MyBookingsPage = () => {
               housingData={booking.housingData || undefined}
               status={booking.status}
               createdAt={booking.createdAt}
+              startDate={booking.startDate} // Pass startDate to BookingCard
+              endDate={booking.endDate} // Pass endDate to BookingCard
             />
           ))}
         </div>

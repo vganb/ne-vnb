@@ -23,6 +23,8 @@ interface BookingProps {
   packageData?: PackageData;
   housingData?: HousingData;
   status: string;
+  startDate?: string;
+  endDate?: string;
   createdAt: string;
 }
 
@@ -32,17 +34,23 @@ const BookingCard: React.FC<BookingProps> = ({
   housingData,
   status,
   createdAt,
+  startDate,
+  endDate,
 }) => {
   // Choose images for package and housing
   const packageImage = packageData?.image;
   const housingImage = housingData?.images[0];
 
+  const displayDate =
+    startDate && endDate
+      ? `${startDate.slice(0, 10)} - ${endDate.slice(0, 10)}`
+      : "Dates not available";
+
   return (
     <div className="p-4 bg-white rounded-lg border-2 shadow-md mb-6 ">
       {/* Display Booking Date and Status */}
       <div className="text-gray-600 text-xs mb-2">
-        <strong>Booking Date:</strong>{" "}
-        {new Date(createdAt).toLocaleDateString()}
+        <strong>Booking Date:</strong> {displayDate}
       </div>
 
       {/* Package Section */}

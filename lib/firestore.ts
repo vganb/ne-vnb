@@ -85,6 +85,10 @@ export const fetchBookings = async (userId: string) => {
         docSnapshot as QueryDocumentSnapshot<Booking>
       ).data();
 
+      // Extract start and end dates from bookingDate field
+      const startDate = bookingData.bookingDate?.start;
+      const endDate = bookingData.bookingDate?.end;
+
       // Fetch package details if a packageId exists
       let packageData: PackageData | undefined = undefined;
       if (bookingData.packageId) {
@@ -110,6 +114,8 @@ export const fetchBookings = async (userId: string) => {
         ...bookingData,
         packageData,
         housingData,
+        startDate, // Add startDate to return object
+        endDate, // Add endDate to return object
       };
     })
   );

@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { PackageData } from "../../lib/types";
 import { useBookingContext } from "../../context/BookingContext"; // Import the booking context
 import { useToast } from "@/hooks/use-toast"; // Import useToast
+import { addDays } from "date-fns";
 
 // Define the props for the PackageDetail component
 interface PackageDetailProps {
@@ -20,7 +21,8 @@ const PackageDetail: React.FC<PackageDetailProps> = ({
 }) => {
   const [userId, setUserId] = useState<string | null>(null); // Store the userId
   const [loading, setLoading] = useState(false); // Loading state for the booking
-  const { setBookingId } = useBookingContext(); // Access setBookingId from context
+  const { setBookingId, bookingStartDate, bookingEndDate } =
+    useBookingContext(); // Access context properties
   const { toast } = useToast(); // Get the toast function from useToast
 
   const router = useRouter();
@@ -37,12 +39,22 @@ const PackageDetail: React.FC<PackageDetailProps> = ({
 
     setLoading(true);
     try {
+      const bookingDate = {
+        start: bookingStartDate
+          ? bookingStartDate.toISOString()
+          : new Date().toISOString(),
+        end: bookingEndDate
+          ? bookingEndDate.toISOString()
+          : addDays(new Date(), 3).toISOString(),
+      };
+
       const bookingRef = await addDoc(collection(db, "bookings"), {
         userId,
         packageId: packageData?.packageId,
         packageTitle: packageData?.title,
         price: packageData?.price,
         status: "pending",
+        bookingDate, // Use the safe bookingDate object
         createdAt: new Date().toISOString(),
       });
       await updateDoc(doc(db, "bookings", bookingRef.id), {

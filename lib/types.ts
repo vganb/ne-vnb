@@ -3,6 +3,7 @@
 // types.ts
 
 export interface Booking {
+  bookingDate: any;
   createdAt: string;
   housingCity: string;
   housingHost: string;
