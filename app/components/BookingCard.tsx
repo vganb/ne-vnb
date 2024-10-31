@@ -23,7 +23,9 @@ interface BookingProps {
   packageData?: PackageData;
   housingData?: HousingData;
   startDate?: string;
+  status: string;
   endDate?: string;
+  createdAt?: string;
 }
 
 const BookingCard: React.FC<BookingProps> = ({

@@ -3,7 +3,6 @@ import { useAuth } from "../../context/AuthContext";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import Link from "next/link";
-import { ro } from "date-fns/locale";
 
 const LoginPage = () => {
   const { login, loginWithGoogle } = useAuth();
@@ -17,7 +16,7 @@ const LoginPage = () => {
     try {
       await login(email, password);
       router.push("/");
-    } catch (err) {
+    } catch (error) {
       setError("Failed to login");
     }
   };

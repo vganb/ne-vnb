@@ -12,7 +12,6 @@ import { Booking, Package, PackageData, Housing } from "./types";
 
 // Firestore collection reference
 const packagesCollectionRef = collection(db, "packages");
-const housingCollectionRef = collection(db, "housing");
 const bookingsCollectionRef = collection(db, "bookings");
 
 // Function to get all packages from Firestore and return both packages and unique tags (categories)
