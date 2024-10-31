@@ -16,7 +16,7 @@ const LoginPage = () => {
     try {
       await login(email, password);
       router.push("/");
-    } catch (error) {
+    } catch {
       setError("Failed to login");
     }
   };
@@ -25,7 +25,7 @@ const LoginPage = () => {
     try {
       await loginWithGoogle();
       router.push("/");
-    } catch (error) {
+    } catch {
       setError("Failed to login with Google");
     }
   };
@@ -65,7 +65,7 @@ const LoginPage = () => {
       </button>
       {/* Add a link to the Sign-Up page */}
       <p className="mt-4">
-        Don't have an account?{" "}
+        Don&apos;t have an account?{" "}
         <Link href="/signup">
           <button className="text-blue-500 underline">Create one</button>
         </Link>
