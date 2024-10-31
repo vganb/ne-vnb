@@ -24,8 +24,14 @@ const PackageDetail: React.FC<PackageDetailProps> = ({
   const { setBookingId, bookingStartDate, bookingEndDate } =
     useBookingContext(); // Access context properties
   const { toast } = useToast(); // Get the toast function from useToast
-
   const router = useRouter();
+  // Utility function to set a date to midnight UTC
+  const setMidnightUTC = (date: Date): string => {
+    const utcDate = new Date(
+      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+    );
+    return utcDate.toISOString(); // This ensures the date is stored as UTC midnight
+  };
 
   const handleBookNow = async () => {
     if (!userId) {
@@ -41,11 +47,11 @@ const PackageDetail: React.FC<PackageDetailProps> = ({
     try {
       const bookingDate = {
         start: bookingStartDate
-          ? bookingStartDate.toISOString()
-          : new Date().toISOString(),
+          ? setMidnightUTC(bookingStartDate)
+          : setMidnightUTC(new Date()),
         end: bookingEndDate
-          ? bookingEndDate.toISOString()
-          : addDays(new Date(), 3).toISOString(),
+          ? setMidnightUTC(bookingEndDate)
+          : setMidnightUTC(addDays(new Date(), 3)),
       };
 
       const bookingRef = await addDoc(collection(db, "bookings"), {
