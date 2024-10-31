@@ -12,6 +12,7 @@ const BookingsIcon = ({ className }: IconProps) => {
         height="36"
         fill="none"
         viewBox="0 0 60 60"
+        className={className}
       >
         <path
           fill="#000"

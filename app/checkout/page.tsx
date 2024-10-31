@@ -2,7 +2,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
 import { IoCloseCircle } from "react-icons/io5";
 import { useBookingContext } from "../../context/BookingContext";
 import NavigationBottom from "../components/NavigationBottom";
@@ -39,8 +38,6 @@ const CheckoutPage = () => {
   const [loading, setLoading] = useState(true);
   const [confirmationMessage, setConfirmationMessage] = useState(""); // Add state for success message
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const bookingIdFromUrl = searchParams.get("bookingId");
 
   useEffect(() => {
     if (bookingId) {

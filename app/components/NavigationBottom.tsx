@@ -10,7 +10,7 @@ import { usePathname, useRouter } from "next/navigation"; // Import usePathname 
 import { useAuth } from "@/context/AuthContext";
 function NavigationBottom() {
   const [activeIcon, setActiveIcon] = useState("package");
-  const { user, logout } = useAuth(); // Get the user and logout function from AuthContext
+  const { user } = useAuth();
 
   const pathname = usePathname(); // Use usePathname instead of useRouter
   const router = useRouter();

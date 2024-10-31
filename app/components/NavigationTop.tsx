@@ -11,7 +11,7 @@ import { usePathname } from "next/navigation"; // Import usePathname for App Rou
 
 function NavigationTop() {
   const [activeIcon, setActiveIcon] = useState("package");
-  const { user, logout } = useAuth(); // Get the user and logout function from AuthContext
+  const { user } = useAuth();
   const router = useRouter();
   const pathname = usePathname(); // Use usePathname to get the current route
 

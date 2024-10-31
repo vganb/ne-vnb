@@ -1,5 +1,4 @@
 import React from "react";
-import { Copy } from "lucide-react";
 
 import { Button } from "./ui/button";
 import {
@@ -12,9 +11,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
-
-// import { Input } from "@/components/ui/input"
-// import { Label } from "@/components/ui/label"
 
 const CardIntro = () => {
   return (
@@ -53,8 +49,3 @@ const CardIntro = () => {
 };
 
 export default CardIntro;
-
-// export function DialogCloseButton() {
-//   return (
-//   );
-// }

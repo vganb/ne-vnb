@@ -32,8 +32,6 @@ const BookingCard: React.FC<BookingProps> = ({
   type,
   packageData,
   housingData,
-  status,
-  createdAt,
   startDate,
   endDate,
 }) => {
