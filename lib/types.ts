@@ -66,7 +66,3 @@ export interface Housing {
   rating?: number;
   cancellationPolicy: string;
 }
-
-interface Category {
-  name: string;
-}
