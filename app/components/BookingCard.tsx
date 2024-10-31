@@ -22,10 +22,8 @@ interface BookingProps {
   type: "package" | "housing" | "combined";
   packageData?: PackageData;
   housingData?: HousingData;
-  status: string;
   startDate?: string;
   endDate?: string;
-  createdAt: string;
 }
 
 const BookingCard: React.FC<BookingProps> = ({
