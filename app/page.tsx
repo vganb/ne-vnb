@@ -10,6 +10,7 @@ import PackageCard from "./components/PackageCard";
 import { getPackages } from "../lib/firestore";
 import { Package } from "../lib/types";
 import { useRouter } from "next/navigation";
+import LoadingSpinner from "./components/LoadingSpinner";
 
 function Home() {
   const [packages, setPackages] = useState<Package[]>([]);
@@ -44,7 +45,11 @@ function Home() {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center">
+        <LoadingSpinner />
+      </div>
+    );
   }
 
   return (
