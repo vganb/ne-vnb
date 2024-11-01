@@ -28,13 +28,14 @@ function useMediaQuery(query: string): boolean {
 
   return matches;
 }
-
 function DatePickerWithRange({
   className,
 }: React.HTMLAttributes<HTMLDivElement>) {
-  const { setBookingStartDate, setBookingEndDate } = useBookingContext(); // Access context setters
-  const defaultStartDate = new Date();
-  const defaultEndDate = addDays(new Date(), 3);
+  const { setBookingStartDate, setBookingEndDate } = useBookingContext();
+
+  // Memoize the default start and end dates
+  const defaultStartDate = React.useMemo(() => new Date(), []);
+  const defaultEndDate = React.useMemo(() => addDays(new Date(), 3), []);
 
   const [date, setDate] = React.useState<DateRange | undefined>({
     from: defaultStartDate,
