@@ -4,9 +4,7 @@ import Header from "./components/Header";
 import DropdownFilter from "./components/DropdownFilter";
 import DatePickerWithRange from "./components/DatePicker";
 import CardIntro from "./components/CardIntro";
-import HorizontalScrollbarPage from "./components/HorizontalScrollbarPage";
 import NavigationBottom from "./components/NavigationBottom";
-import PackageCard from "./components/PackageCard";
 import { getPackages } from "../lib/firestore";
 import { Package } from "../lib/types";
 import { useRouter } from "next/navigation";
@@ -83,7 +81,6 @@ function Home() {
       <div className="">
         <NavigationBottom />
       </div>
-      {/* min-w-320px */}
     </div>
   );
 }
