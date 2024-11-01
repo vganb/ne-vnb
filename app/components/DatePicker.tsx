@@ -47,7 +47,12 @@ function DatePickerWithRange({
     // Set default dates in context on mount if no dates are selected
     setBookingStartDate(defaultStartDate);
     setBookingEndDate(defaultEndDate);
-  }, [setBookingStartDate, setBookingEndDate]);
+  }, [
+    setBookingStartDate,
+    setBookingEndDate,
+    defaultStartDate,
+    defaultEndDate,
+  ]);
 
   const handleDateSelect = (range: DateRange | undefined) => {
     setDate(range);

@@ -1,4 +1,39 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
-
+const nextConfig = {
+  images: {
+    domains: [
+      "www.visitstockholm.com",
+      "bilder.hemnet.se",
+      "www.nationalmuseum.se",
+      "static.thatsup.co",
+      "files.guidedanmark.org",
+      "www.visitoslo.com",
+      "www.visitdenmark.com",
+      "finlandnaturally.com",
+      "jkmm.fi",
+      "upload.wikimedia.org",
+      "c8.alamy.com",
+      "dynamic-media-cdn.tripadvisor.com",
+      "www.discoveringfinland.com",
+      "streetartoslo.no",
+      "res.cloudinary.com",
+      "content.igluski.com",
+      "encrypted-tbn0.gstatic.com",
+      "www.operan.se",
+      "scanmagazine.co.uk",
+      "cdn.sanity.io",
+      "oopperabaletti.fi",
+      "gdkfiles.visitdenmark.com",
+      "helsinkipaiva.fi",
+      "images.squarespace-cdn.com",
+      "tellusdmsmedia.newmindmedia.com",
+      "wanderarti.com",
+      "visitsweden.com",
+      "www.helsinki.com",
+      "d2wxmbjkuhn0pi.cloudfront.net",
+      "live.theater-backend.umakers.io",
+      "example.com",
+    ],
+  },
+};
 export default nextConfig;

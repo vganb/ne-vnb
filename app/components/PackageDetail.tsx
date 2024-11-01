@@ -8,6 +8,7 @@ import { PackageData } from "../../lib/types";
 import { useBookingContext } from "../../context/BookingContext"; // Import the booking context
 import { useToast } from "@/hooks/use-toast"; // Import useToast
 import { addDays } from "date-fns";
+import Image from "next/image";
 
 // Define the props for the PackageDetail component
 interface PackageDetailProps {
@@ -108,9 +109,11 @@ const PackageDetail: React.FC<PackageDetailProps> = ({
         </div>
 
         {/* Main Image */}
-        <img
+        <Image
           src={packageData.image}
           alt={packageData.title}
+          width={1920}
+          height={1080}
           className="rounded-md object-cover w-full h-56 mb-4"
         />
       </div>
@@ -156,9 +159,11 @@ const PackageDetail: React.FC<PackageDetailProps> = ({
       {packageData.locationMap && (
         <div className="mt-6">
           <h3 className="text-lg font-bold mb-2">Locations:</h3>
-          <img
+          <Image
             src="https://www.stockholmlgbt.com/wp-content/uploads/2018/01/StockholmMapGraphic.png"
             alt="Map of location"
+            height={1080}
+            width={1920}
             className="rounded-md object-cover w-full h-40"
           />
         </div>

@@ -1,5 +1,5 @@
 import React from "react";
-
+import Image from "next/image";
 interface PackageData {
   title: string;
   city: string;
@@ -57,10 +57,13 @@ const BookingCard: React.FC<BookingProps> = ({
           {/* Package Image */}
           {packageImage && (
             <div className="relative">
-              <img
+              <Image
                 src={packageImage}
                 alt={`${packageData?.title} image`}
+                width={1920} // Width in pixels (adjust based on actual image size)
+                height={1080} // Height in pixels (adjust based on actual image size)
                 className="w-full h-48 object-cover rounded-t-lg"
+                // layout="responsive"
               />
               {/* Tag Label */}
               <span className="absolute top-2 right-2 bg-orange-500 text-white text-xs px-2 py-1 rounded">
@@ -93,10 +96,12 @@ const BookingCard: React.FC<BookingProps> = ({
           {/* Housing Image */}
           {housingImage && (
             <div className="relative">
-              <img
+              <Image
                 src={housingImage}
                 alt={`${housingData?.title} image`}
-                className="w-full h-48 object-cover rounded-t-lg"
+                width={1920} // Width in pixels (adjust based on actual image size)
+                height={1080}
+                className="w-full h-48 object-fill rounded-t-lg"
               />
             </div>
           )}

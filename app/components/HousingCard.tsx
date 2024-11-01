@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from "./ui/card";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface HousingCardProps {
   id: string;
@@ -49,9 +50,11 @@ export function HousingCard({
         <CardHeader></CardHeader>
         <CardContent className="relative">
           {/* Image of the house */}
-          <img
+          <Image
             src={images[0]} // Use dynamic image from props
             alt={title}
+            height={1920}
+            width={1080}
             className="rounded-md object-cover h-48 w-full"
           />
           <CardTitle>{title}</CardTitle>

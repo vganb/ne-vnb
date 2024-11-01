@@ -7,6 +7,7 @@ import NavigationBottom from "../components/NavigationBottom";
 import Header from "../components/Header";
 import { db } from "../../lib/firebase";
 import { doc, getDoc, deleteDoc, updateDoc } from "firebase/firestore";
+import Image from "next/image";
 
 interface PackageData {
   title: string;
@@ -162,9 +163,11 @@ const CheckoutPage = () => {
         <div className="mb-6">
           <h2 className="text-xl font-semibold mb-2">Package</h2>
           <div className="border rounded-lg p-4">
-            <img
+            <Image
               src={packageData.image}
               alt={packageData.title}
+              width={1920}
+              height={1080}
               className="w-full h-40 object-cover rounded-md mb-4"
             />
             <h3 className="text-lg font-bold">{packageData.title}</h3>
@@ -181,9 +184,11 @@ const CheckoutPage = () => {
         <div className="mb-6">
           <h2 className="text-xl font-semibold mb-2">Housing</h2>
           <div className="border rounded-lg p-4">
-            <img
+            <Image
               src={housingData.images[0]}
               alt={housingData.title}
+              width={1920}
+              height={1080}
               className="w-full h-40 object-cover rounded-md mb-4"
             />
             <h3 className="text-lg font-bold">{housingData.title}</h3>

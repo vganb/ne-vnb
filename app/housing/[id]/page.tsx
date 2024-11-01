@@ -10,6 +10,7 @@ import { useBookingContext } from "../../../context/BookingContext";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../lib/firebase";
 import { useToast } from "@/hooks/use-toast";
+import Image from "next/image";
 
 const HousingDetailPage = () => {
   const params = useParams();
@@ -108,9 +109,11 @@ const HousingDetailPage = () => {
         {/* Grid layout for larger screens */}
         <div className="hidden lg:grid grid-cols-3 gap-4">
           {housingDetail.images.map((img, index) => (
-            <img
+            <Image
               key={index}
               src={img}
+              height={1080}
+              width={1920}
               alt={`${housingDetail.title} - Image ${index + 1}`}
               className={`object-cover w-full rounded-md ${
                 index === 0 ? "col-span-2 row-span-2 h-96" : "h-48"

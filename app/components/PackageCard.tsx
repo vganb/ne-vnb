@@ -9,6 +9,7 @@ import {
 } from "./ui/card";
 
 import { PackageCardProps } from "../../lib/types";
+import Image from "next/image";
 
 export function PackageCard({
   title,
@@ -26,9 +27,11 @@ export function PackageCard({
       </CardHeader>
       <CardContent className="relative">
         {/* Image of the experience */}
-        <img
+        <Image
           src={image}
           alt={title}
+          height={1920}
+          width={1080}
           className="rounded-md object-cover h-48 w-full"
         />
 
