@@ -89,9 +89,11 @@ const HousingDetailPage = () => {
       <div className="mb-6">
         {/* Carousel for mobile screens */}
         <div className="lg:hidden relative">
-          <img
+          <Image
             src={housingDetail.images[currentImageIndex]}
             alt={housingDetail.title}
+            width={1920}
+            height={1080}
             className="object-cover w-full h-60 mb-4 cursor-pointer rounded-md"
             onClick={() =>
               setCurrentImageIndex((prevIndex) =>
