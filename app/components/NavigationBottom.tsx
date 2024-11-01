@@ -39,7 +39,7 @@ function NavigationBottom() {
   };
 
   return (
-    <div className="fixed bottom-0 left-0 w-full sm:hidden flex justify-evenly items-center border-t-4 border-purple-700 h-16 bg-white z-50">
+    <div className="fixed bottom-0 left-0 w-full sm:hidden flex justify-evenly items-center h-16 bg-white z-50">
       <Link href={"/"}>
         <div
           className="cursor-pointer flex flex-col items-center justify-end"

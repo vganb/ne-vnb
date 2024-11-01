@@ -4,30 +4,26 @@ import Header from "../components/Header";
 import HousingCard from "../components/HousingCard";
 import NavigationBottom from "../components/NavigationBottom";
 import { IoArrowBackCircle } from "react-icons/io5";
-import { useRouter, useSearchParams } from "next/navigation"; // Hook to access query parameters
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   fetchBookingById,
   getHousing,
   getPackageById,
-} from "../../lib/firestore"; // Firestore fetch function
-import { Housing, PackageData } from "../../lib/types"; // Housing type
-import { useBookingContext } from "../../context/BookingContext"; // Booking context
-import { useToast } from "@/hooks/use-toast"; // Custom toast hook
+} from "../../lib/firestore";
+import { Housing, PackageData } from "../../lib/types";
+import { useBookingContext } from "../../context/BookingContext";
+import { useToast } from "@/hooks/use-toast";
 
 const HousingList = () => {
   const [housingList, setHousingList] = useState<Housing[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-  const searchParams = useSearchParams(); // Access URL search parameters
-  const { toast } = useToast(); // Custom toast hook
+  const searchParams = useSearchParams();
+  const { toast } = useToast();
 
-  // Get bookingId from context and also define setter from context
   const { bookingId, setBookingId } = useBookingContext();
-
-  // Extract bookingId from the URL (if available)
   const bookingIdFromUrl = searchParams.get("bookingId");
 
-  // Set bookingId from URL on initial render if not already set
   useEffect(() => {
     if (bookingIdFromUrl && !bookingId) {
       setBookingId(bookingIdFromUrl);
@@ -35,25 +31,27 @@ const HousingList = () => {
   }, [bookingIdFromUrl, bookingId, setBookingId]);
 
   useEffect(() => {
-    const fetchHousingDataByCity = async () => {
+    const fetchHousingData = async () => {
       try {
-        // Check if bookingId is now available
-        if (!bookingId) {
-          throw new Error("No booking ID found.");
+        let housingData;
+
+        if (bookingId) {
+          const bookingDetails = await fetchBookingById(bookingId);
+          if (!bookingDetails?.packageId)
+            throw new Error("No package found for this booking.");
+
+          const packageData: PackageData | null = await getPackageById(
+            bookingDetails.packageId
+          );
+          if (!packageData?.city) throw new Error("Package city not found");
+
+          // Fetch housing filtered by the city from the package
+          housingData = await getHousing(packageData.city);
+        } else {
+          // Fetch all housings if no booking or package is selected
+          housingData = await getHousing();
         }
 
-        const bookingDetails = await fetchBookingById(bookingId);
-        if (!bookingDetails?.packageId)
-          throw new Error("No package found for this booking.");
-
-        // Fetch package details using packageId
-        const packageData: PackageData | null = await getPackageById(
-          bookingDetails.packageId
-        );
-        if (!packageData?.city) throw new Error("Package city not found");
-
-        // Use the city from the package to filter housing
-        const housingData = await getHousing(packageData.city);
         setHousingList(housingData);
       } catch (error) {
         console.error("Error fetching housing data:", error);
@@ -63,27 +61,23 @@ const HousingList = () => {
       }
     };
 
-    // Only fetch data if bookingId is available
-    if (bookingId) {
-      fetchHousingDataByCity();
-    }
+    fetchHousingData();
   }, [bookingId, toast]);
 
-  // Handler for skipping housing selection and going straight to checkout
   const handleSkipHousing = () => {
     if (bookingId) {
-      router.push(`/checkout?bookingId=${bookingId}`); // Navigate to checkout with bookingId
+      router.push(`/checkout?bookingId=${bookingId}`);
     } else {
       console.error("No bookingId found");
-      router.push("/"); // Navigate to home if no bookingId is found
+      router.push("/");
       toast({
-        description: "You need to login to continue the booking",
+        description: "You need to log in to continue the booking",
       });
     }
   };
 
   if (loading) {
-    return <div>Loading...</div>; // Show loading indicator while fetching data
+    return <div>Loading...</div>;
   }
 
   return (
@@ -97,7 +91,6 @@ const HousingList = () => {
         />
       </div>
       <div className="mx-auto">
-        {/* Skip Housing Button */}
         <button
           onClick={handleSkipHousing}
           className="py-3 px-8 rounded-lg text-white font-bold bg-orange-400"
