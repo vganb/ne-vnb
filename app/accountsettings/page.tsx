@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import NavigationBottom from "../components/NavigationBottom";
 import { IoArrowBackCircle } from "react-icons/io5";
 import { useAuth } from "@/context/AuthContext";
