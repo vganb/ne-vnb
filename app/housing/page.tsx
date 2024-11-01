@@ -5,8 +5,12 @@ import HousingCard from "../components/HousingCard";
 import NavigationBottom from "../components/NavigationBottom";
 import { IoArrowBackCircle } from "react-icons/io5";
 import { useRouter, useSearchParams } from "next/navigation"; // Hook to access query parameters
-import { getHousing } from "../../lib/firestore"; // Firestore fetch function
-import { Housing } from "../../lib/types"; // Housing type
+import {
+  fetchBookingById,
+  getHousing,
+  getPackageById,
+} from "../../lib/firestore"; // Firestore fetch function
+import { Booking, Housing, PackageData } from "../../lib/types"; // Housing type
 import { useBookingContext } from "../../context/BookingContext"; // Booking context
 import { useToast } from "@/hooks/use-toast"; // Custom toast hook
 
@@ -23,21 +27,47 @@ const HousingList = () => {
   // Extract bookingId from the URL (if available)
   const bookingIdFromUrl = searchParams.get("bookingId");
 
+  // Set bookingId from URL on initial render if not already set
   useEffect(() => {
-    // Set bookingId from URL to context if it's available
     if (bookingIdFromUrl && !bookingId) {
       setBookingId(bookingIdFromUrl);
     }
+  }, [bookingIdFromUrl, bookingId, setBookingId]);
 
-    // Fetch housing data
-    const fetchHousingData = async () => {
-      const housingData = await getHousing(); // Fetch housing data from Firestore
-      setHousingList(housingData); // Set the fetched data in state
-      setLoading(false); // Stop loading
+  useEffect(() => {
+    const fetchHousingDataByCity = async () => {
+      try {
+        // Check if bookingId is now available
+        if (!bookingId) {
+          throw new Error("No booking ID found.");
+        }
+
+        const bookingDetails = await fetchBookingById(bookingId);
+        if (!bookingDetails?.packageId)
+          throw new Error("No package found for this booking.");
+
+        // Fetch package details using packageId
+        const packageData: PackageData | null = await getPackageById(
+          bookingDetails.packageId
+        );
+        if (!packageData?.city) throw new Error("Package city not found");
+
+        // Use the city from the package to filter housing
+        const housingData = await getHousing(packageData.city);
+        setHousingList(housingData);
+      } catch (error) {
+        console.error("Error fetching housing data:", error);
+        toast({ description: "Error fetching housing data" });
+      } finally {
+        setLoading(false);
+      }
     };
 
-    fetchHousingData();
-  }, [bookingIdFromUrl, bookingId, setBookingId]); // Fetch data once on component mount
+    // Only fetch data if bookingId is available
+    if (bookingId) {
+      fetchHousingDataByCity();
+    }
+  }, [bookingId, toast]);
 
   // Handler for skipping housing selection and going straight to checkout
   const handleSkipHousing = () => {

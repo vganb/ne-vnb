@@ -6,6 +6,8 @@ import {
   query,
   where,
   QueryDocumentSnapshot,
+  Query,
+  DocumentData,
 } from "firebase/firestore";
 import { db } from "./firebase";
 import { Booking, Package, PackageData, Housing } from "./types";
@@ -33,29 +35,35 @@ export const getPackages = async () => {
   return { packages, uniqueTags };
 };
 
-export const getPackageById = async (id: string) => {
+export const getPackageById = async (
+  id: string
+): Promise<PackageData | null> => {
   const docRef = doc(db, "packages", id);
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
     return {
+      packageId: docSnap.id,
       ...docSnap.data(),
-      packageId: docSnap.id, // Map Firestore document ID to `packageId`
-    };
+    } as PackageData;
   } else {
     throw new Error("Package not found");
   }
 };
 
-export const getHousing = async (): Promise<Housing[]> => {
-  const housingCollectionRef = collection(db, "housing");
-  const querySnapshot = await getDocs(housingCollectionRef);
+export const getHousing = async (city?: string): Promise<Housing[]> => {
+  let housingQuery: Query<DocumentData> = collection(db, "housing");
 
-  // Map Firestore documents to an array of Housing objects, including the document ID
+  // Apply city filter if a city is provided
+  if (city) {
+    housingQuery = query(housingQuery, where("city", "==", city));
+  }
+
+  const querySnapshot = await getDocs(housingQuery);
   return querySnapshot.docs.map((doc) => ({
-    id: doc.id, // Get the document ID from Firestore
-    ...doc.data(), // Spread the rest of the document data
-  })) as Housing[]; // Cast to Housing array
+    id: doc.id,
+    ...doc.data(),
+  })) as Housing[];
 };
 
 export const getHousingById = async (id: string): Promise<Housing | null> => {
@@ -67,6 +75,15 @@ export const getHousingById = async (id: string): Promise<Housing | null> => {
   }
 
   return null; // Return null if no document exists
+};
+
+export const fetchBookingById = async (
+  bookingId: string
+): Promise<Booking | null> => {
+  const bookingRef = doc(db, "bookings", bookingId);
+  const bookingDoc = await getDoc(bookingRef);
+
+  return bookingDoc.exists() ? (bookingDoc.data() as Booking) : null;
 };
 
 // New function to fetch user-specific bookings along with package and housing details
