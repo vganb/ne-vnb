@@ -10,7 +10,7 @@ import {
   getHousing,
   getPackageById,
 } from "../../lib/firestore"; // Firestore fetch function
-import { Booking, Housing, PackageData } from "../../lib/types"; // Housing type
+import { Housing, PackageData } from "../../lib/types"; // Housing type
 import { useBookingContext } from "../../context/BookingContext"; // Booking context
 import { useToast } from "@/hooks/use-toast"; // Custom toast hook
 
