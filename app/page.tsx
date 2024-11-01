@@ -11,6 +11,8 @@ import { getPackages } from "../lib/firestore";
 import { Package } from "../lib/types";
 import { useRouter } from "next/navigation";
 import LoadingSpinner from "./components/LoadingSpinner";
+import PackageList from "./components/PackageList";
+import CategoryFilter from "./components/CategoryFilter";
 
 function Home() {
   const [packages, setPackages] = useState<Package[]>([]);
@@ -68,41 +70,16 @@ function Home() {
         <p>Ready to go travel packages, get yours today!</p>
         <CardIntro />
       </div>
-      {/* Horizontal scroll categories */}
-      <div className="w-full sm:w-[400px] bg-orange-100 rounded-lg mt-4 mx-auto">
-        <HorizontalScrollbarPage>
-          {categories.map((category, index) => (
-            <div
-              key={index}
-              className={`p-1 bg-orange-300 border-2 border-gray-400 rounded-md text-center shrink-0 uppercase hover:bg-orange-400 cursor-pointer ${
-                selectedCategory === category ? "bg-orange-500" : ""
-              }`} // Highlight selected category
-              onClick={() => setSelectedCategory(category)} // Set selected category on click
-            >
-              {category}
-            </div>
-          ))}
-        </HorizontalScrollbarPage>
-      </div>
+      <CategoryFilter
+        categories={categories}
+        selectedCategory={selectedCategory}
+        onSelectCategory={setSelectedCategory}
+      />
       {/* Responsive grid layout for PackageCard */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
-        {filteredPackages.map((pkg) => (
-          <div
-            key={pkg.id} // Use unique id from Firestore
-            onClick={() => handlePackageClick(pkg.id)}
-            className="cursor-pointer"
-          >
-            <PackageCard
-              title={pkg.title}
-              city={pkg.city}
-              description={pkg.description}
-              price={pkg.price}
-              tag={pkg.tag}
-              image={pkg.image}
-            />
-          </div>
-        ))}
-      </div>
+      <PackageList
+        packages={filteredPackages}
+        onPackageClick={handlePackageClick}
+      />
       <div className="">
         <NavigationBottom />
       </div>
