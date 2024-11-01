@@ -1,5 +1,6 @@
 "use client";
-import React, { useEffect, useState } from "react";
+
+import React, { useEffect, useState, Suspense } from "react";
 import Header from "../components/Header";
 import HousingCard from "../components/HousingCard";
 import NavigationBottom from "../components/NavigationBottom";
@@ -14,11 +15,11 @@ import { Housing, PackageData } from "../../lib/types";
 import { useBookingContext } from "../../context/BookingContext";
 import { useToast } from "@/hooks/use-toast";
 
-const HousingList = () => {
+const HousingListContent = () => {
   const [housingList, setHousingList] = useState<Housing[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams(); // client-side hook
   const { toast } = useToast();
 
   const { bookingId, setBookingId } = useBookingContext();
@@ -121,5 +122,12 @@ const HousingList = () => {
     </div>
   );
 };
+
+// Wrap HousingListContent in Suspense
+const HousingList = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <HousingListContent />
+  </Suspense>
+);
 
 export default HousingList;

@@ -8,6 +8,7 @@ const nextConfig = {
       "static.thatsup.co",
       "www.wanderarti.com",
       "files.guidedanmark.org",
+      "a0.muscache.com",
       "www.visitoslo.com",
       "www.visitdenmark.com",
       "finlandnaturally.com",
