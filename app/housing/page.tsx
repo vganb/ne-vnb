@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import Header from "../components/Header";
 import HousingCard from "../components/HousingCard";
 import NavigationBottom from "../components/NavigationBottom";
@@ -16,7 +16,7 @@ import { useBookingContext } from "../../context/BookingContext";
 import { useToast } from "@/hooks/use-toast";
 import LoadingSpinner from "../components/LoadingSpinner";
 
-const HousingList = () => {
+const HousingContent = () => {
   const [housingList, setHousingList] = useState<Housing[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
@@ -125,6 +125,14 @@ const HousingList = () => {
       </div>
       <NavigationBottom />
     </div>
+  );
+};
+
+const HousingList = () => {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <HousingContent />
+    </Suspense>
   );
 };
 
