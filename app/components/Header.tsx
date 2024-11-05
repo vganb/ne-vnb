@@ -3,7 +3,11 @@ import ElkLogo from "./ElkLogo";
 import NavigationTop from "./NavigationTop";
 import Link from "next/link";
 
-const Header = () => {
+interface HeaderProps {
+  includeNavigation?: boolean;
+}
+
+const Header: React.FC<HeaderProps> = ({ includeNavigation = true }) => {
   return (
     // Logo and text
     <div className="flex justify-between items-center h-20 px-4 bg-orange-100 w-full">
@@ -17,9 +21,11 @@ const Header = () => {
       </Link>
 
       {/* NavigationTop  */}
-      <div className="">
-        <NavigationTop />
-      </div>
+      {includeNavigation && (
+        <div className="">
+          <NavigationTop />
+        </div>
+      )}
     </div>
   );
 };
