@@ -18,8 +18,8 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({
         {categories.map((category, index) => (
           <div
             key={index}
-            className={`p-1 bg-orange-300 border-2 border-gray-400 rounded-md text-center shrink-0 uppercase hover:bg-orange-400 cursor-pointer ${
-              selectedCategory === category ? "bg-orange-500" : ""
+            className={`py-1 px-6 bg-orange-300  rounded-2xl text-center font-bold shrink-0 uppercase hover:bg-orange-400 cursor-pointer ${
+              selectedCategory === category ? "bg-orange-500 text-white" : ""
             }`}
             onClick={() => onSelectCategory(category)}
           >

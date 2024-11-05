@@ -11,6 +11,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../lib/firebase";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
 
 const HousingDetailPage = () => {
   const params = useParams();
@@ -43,7 +44,11 @@ const HousingDetailPage = () => {
   }, [id]);
 
   if (loading) {
-    return <div>Loading housing details...</div>;
+    return (
+      <div className="flex justify-center">
+        <LoadingSpinner />
+      </div>
+    );
   }
 
   if (!housingDetail) {

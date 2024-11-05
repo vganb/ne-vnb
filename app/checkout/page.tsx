@@ -8,6 +8,7 @@ import Header from "../components/Header";
 import { db } from "../../lib/firebase";
 import { doc, getDoc, deleteDoc, updateDoc } from "firebase/firestore";
 import Image from "next/image";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 interface PackageData {
   title: string;
@@ -123,8 +124,13 @@ const CheckoutPage = () => {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
-
+  if (loading) {
+    return (
+      <div className="flex justify-center">
+        <LoadingSpinner />
+      </div>
+    );
+  }
   if (!bookingId || !bookingData) {
     return (
       <div className="w-full mx-auto text-center">

@@ -77,7 +77,7 @@ const MyBookingsPage = () => {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
+      <div className="flex justify-center">
         <LoadingSpinner />
       </div>
     );

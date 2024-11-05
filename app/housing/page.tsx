@@ -14,8 +14,9 @@ import {
 import { Housing, PackageData } from "../../lib/types";
 import { useBookingContext } from "../../context/BookingContext";
 import { useToast } from "@/hooks/use-toast";
+import LoadingSpinner from "../components/LoadingSpinner";
 
-const HousingListContent = () => {
+const HousingList = () => {
   const [housingList, setHousingList] = useState<Housing[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
@@ -78,7 +79,11 @@ const HousingListContent = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center">
+        <LoadingSpinner />
+      </div>
+    );
   }
 
   return (
@@ -122,12 +127,5 @@ const HousingListContent = () => {
     </div>
   );
 };
-
-// Wrap HousingListContent in Suspense
-const HousingList = () => (
-  <Suspense fallback={<div>Loading...</div>}>
-    <HousingListContent />
-  </Suspense>
-);
 
 export default HousingList;

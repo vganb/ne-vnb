@@ -6,6 +6,7 @@ import { doc, getDoc } from "firebase/firestore"; // Firestore imports
 import { db } from "../../../lib/firebase"; // Firestore initialization
 import PackageDetail from "../../components/PackageDetail"; // Import the PackageDetail component
 import { PackageData } from "../../../lib/types"; // Import the PackageData type
+import LoadingSpinner from "@/app/components/LoadingSpinner";
 
 const PackageDetailPage = () => {
   const router = useRouter();
@@ -42,7 +43,11 @@ const PackageDetailPage = () => {
   }, [id]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center">
+        <LoadingSpinner />
+      </div>
+    );
   }
 
   if (!packageData) {
