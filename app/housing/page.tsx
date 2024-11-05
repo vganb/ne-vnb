@@ -87,7 +87,7 @@ const HousingList = () => {
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col mb-20">
       <Header />
       <div className="mt-4 pl-1">
         <IoArrowBackCircle

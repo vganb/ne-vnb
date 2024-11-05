@@ -157,7 +157,7 @@ const PackageDetail: React.FC<PackageDetailProps> = ({
 
       {/* Location Map */}
       {packageData.locationMap && (
-        <div className="mt-6">
+        <div className="mt-6 mb-20">
           <h3 className="text-lg font-bold mb-2">Locations:</h3>
           <Image
             src="https://www.stockholmlgbt.com/wp-content/uploads/2018/01/StockholmMapGraphic.png"
@@ -170,11 +170,11 @@ const PackageDetail: React.FC<PackageDetailProps> = ({
       )}
 
       {/* Book Button */}
-      <div className="mt-6 mb-20">
+      <div className="fixed bottom-0 left-0 w-full max-w-2xl mx-auto px-4 py-2 bg-transparent">
         <button
           onClick={handleBookNow}
           className="w-full bg-orange-500 text-white py-3 rounded-md text-lg font-semibold hover:bg-orange-600"
-          disabled={loading} // Disable button while booking is processing
+          disabled={loading}
         >
           {loading ? "Booking..." : "Book"}
         </button>
