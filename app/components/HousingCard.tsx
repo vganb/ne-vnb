@@ -55,6 +55,7 @@ export function HousingCard({
             alt={title}
             height={1920}
             width={1080}
+            priority
             className="rounded-md object-cover h-48 w-full"
           />
           <CardTitle>{title}</CardTitle>

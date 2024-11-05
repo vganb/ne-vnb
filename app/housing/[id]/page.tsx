@@ -87,18 +87,20 @@ const HousingDetailPage = () => {
           onClick={() => router.back()}
           size={40}
           className="absolute top-4 left-4 text-white cursor-pointer"
+          fill="orange"
         />
       </div>
 
       {/* Responsive image layout */}
       <div className="mb-6">
         {/* Carousel for mobile screens */}
-        <div className="lg:hidden relative">
+        <div className="lg:hidden">
           <Image
             src={housingDetail.images[currentImageIndex]}
             alt={housingDetail.title}
             width={1920}
             height={1080}
+            priority // This marks the image as high priority
             className="object-cover w-full h-60 mb-4 cursor-pointer rounded-md"
             onClick={() =>
               setCurrentImageIndex((prevIndex) =>
@@ -121,6 +123,7 @@ const HousingDetailPage = () => {
               src={img}
               height={1080}
               width={1920}
+              priority // This marks the image as high priority
               alt={`${housingDetail.title} - Image ${index + 1}`}
               className={`object-cover w-full rounded-md ${
                 index === 0 ? "col-span-2 row-span-2 h-96" : "h-48"
