@@ -83,35 +83,39 @@ const MyBookingsPage = () => {
     );
   }
 
-  if (!isAuthenticated) {
-    return (
-      <div className="w-full mx-auto text-center">
-        <Header />
-        <h1 className="text-3xl font-bold mb-4">You are not logged in😔</h1>
-        <p className="text-lg">Please log in to view your bookings.</p>
-        <button
-          onClick={() => router.push("/login")}
-          className="mt-6 bg-orange-400 text-white py-2 px-6 rounded-md font-semibold hover:bg-orange-600"
-        >
-          Login
-        </button>
-        <NavigationBottom />
-      </div>
-    );
-  }
+  // if (!isAuthenticated) {
+  //   return (
+  //     <div className="w-full min-h-screen flex flex-col justify-between items-center">
+  //       <Header />
+  //       <div className="flex flex-col justify-center items-center flex-grow">
+  //         <h1 className="text-3xl font-bold mb-4">You are not logged in😔</h1>
+  //         <p className="text-lg">Please log in to view your bookings.</p>
+  //         <button
+  //           onClick={() => router.push("/login")}
+  //           className="mt-6 bg-orange-400 text-white py-2 px-6 rounded-md font-semibold hover:bg-orange-600"
+  //         >
+  //           Login
+  //         </button>
+  //       </div>
+  //       <NavigationBottom />
+  //     </div>
+  //   );
+  // }
 
   if (bookings.length === 0) {
     return (
-      <div className="w-full mx-auto text-center">
+      <div className="w-full min-h-screen flex flex-col justify-between items-center">
         <Header />
-        <h1 className="text-3xl font-bold mb-4">No bookings found😔</h1>
-        <p className="text-lg">You have no bookings at the moment.</p>
-        <button
-          onClick={() => router.push("/")}
-          className="mt-6 bg-orange-500 text-white py-2 px-6 rounded-md font-semibold hover:bg-orange-600"
-        >
-          Browse Packages
-        </button>
+        <div className="flex flex-col justify-center items-center flex-grow">
+          <h1 className="text-3xl font-bold mb-4">No bookings found😔</h1>
+          <p className="text-lg">You have no bookings at the moment.</p>
+          <button
+            onClick={() => router.push("/")}
+            className="mt-6 bg-orange-500 text-white py-2 px-6 rounded-md font-semibold hover:bg-orange-600"
+          >
+            Browse Packages
+          </button>
+        </div>
         <NavigationBottom />
       </div>
     );
