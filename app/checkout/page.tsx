@@ -39,6 +39,7 @@ const CheckoutPage = () => {
   const [loading, setLoading] = useState(true);
   const [confirmationMessage, setConfirmationMessage] = useState(""); // Add state for success message
   const router = useRouter();
+  const { handleDeleteBooking } = useBookingContext();
 
   useEffect(() => {
     if (bookingId) {
@@ -89,18 +90,6 @@ const CheckoutPage = () => {
     setHousingData(null);
     setBookingId(null);
     setConfirmationMessage(""); // Clear any success message
-  };
-
-  const handleDeleteBooking = async () => {
-    if (bookingId) {
-      try {
-        await deleteDoc(doc(db, "bookings", bookingId));
-        clearBookingState();
-        router.push("/");
-      } catch (error) {
-        console.error("Error deleting booking:", error);
-      }
-    }
   };
 
   const handleConfirmBooking = async () => {
@@ -155,7 +144,10 @@ const CheckoutPage = () => {
   return (
     <div className="max-w-2xl mx-auto mt-2 p-4">
       <div className="flex justify-between">
-        <IoCloseCircle size={40} onClick={handleDeleteBooking} />
+        <IoCloseCircle
+          size={40}
+          onClick={() => bookingId && handleDeleteBooking(bookingId)} // Use context's handleDeleteBooking function
+        />
         <h1 className="text-3xl font-bold mb-4">Checkout</h1>
       </div>
 

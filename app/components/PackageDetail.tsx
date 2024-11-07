@@ -70,6 +70,7 @@ const PackageDetail: React.FC<PackageDetailProps> = ({
 
       toast({
         description: "Your package has been successfully booked!",
+        duration: 3000,
       });
 
       setBookingId(bookingRef.id); // Save bookingId in context
