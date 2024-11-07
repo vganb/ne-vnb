@@ -52,12 +52,14 @@ const ProfilePage = () => {
         <p>My Bookings</p>
         <IoIosArrowForward size={25} />
       </div>
-      <button
-        onClick={handleLogout}
-        className="bg-orange-600 px-6 py-4 rounded-md mt-20 text-white"
-      >
-        {user ? "Logout" : "Login"}
-      </button>
+      <div className="flex justify-center">
+        <button
+          onClick={handleLogout}
+          className="fixed bottom-44 right-8 bg-orange-600 px-8 py-2 rounded-md mt-20 text-white font-bold"
+        >
+          {user ? "Logout" : "Login"}
+        </button>
+      </div>
       {/* Navigation Bottom */}
       <NavigationBottom />
     </div>

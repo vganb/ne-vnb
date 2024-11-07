@@ -137,12 +137,12 @@ const CheckoutPage = () => {
         <Header />
         <div className="flex flex-col justify-center items-center flex-grow">
           <h1 className="text-3xl font-bold mb-4">Your Cart is Empty</h1>
-          <p className="text-lg">Please log in to view your cart.</p>
+          {/* <p className="text-lg">Please log in to view your cart.</p> */}
           <button
-            onClick={() => router.push("/login")}
+            onClick={() => router.push("/")}
             className="mt-6 bg-orange-500 text-white py-2 px-6 rounded-md font-semibold hover:bg-orange-600"
           >
-            Login
+            Browse Packages
           </button>
         </div>
         <NavigationBottom />

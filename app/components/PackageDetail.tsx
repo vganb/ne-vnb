@@ -170,7 +170,7 @@ const PackageDetail: React.FC<PackageDetailProps> = ({
       )}
 
       {/* Book Button */}
-      <div className="fixed bottom-0 left-0 w-full max-w-2xl mx-auto px-4 py-2 bg-transparent">
+      <div className="fixed md:static bottom-0 left-0 w-full max-w-2xl mx-auto px-4 py-2 bg-transparent">
         <button
           onClick={handleBookNow}
           className="w-full bg-orange-500 text-white py-3 rounded-md text-lg font-semibold hover:bg-orange-600"
