@@ -23,7 +23,7 @@ const HousingContent = () => {
   const searchParams = useSearchParams(); // client-side hook
   const { toast } = useToast();
 
-  const { bookingId, setBookingId } = useBookingContext();
+  const { bookingId, setBookingId, handleSkipHousing } = useBookingContext();
   const bookingIdFromUrl = searchParams.get("bookingId");
 
   useEffect(() => {
@@ -65,18 +65,6 @@ const HousingContent = () => {
 
     fetchHousingData();
   }, [bookingId, toast]);
-
-  const handleSkipHousing = () => {
-    if (bookingId) {
-      router.push(`/checkout?bookingId=${bookingId}`);
-    } else {
-      console.error("No bookingId found");
-      router.push("/");
-      toast({
-        description: "You need to log in to continue the booking",
-      });
-    }
-  };
 
   if (loading) {
     return (

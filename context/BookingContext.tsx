@@ -12,6 +12,7 @@ interface BookingContextType {
   bookingEndDate: Date | null;
   setBookingEndDate: (date: Date | null) => void;
   handleDeleteBooking: (id: string) => Promise<void>; // Add function type to the context
+  handleSkipHousing: () => void; // Add handleSkipHousing to the interface
 }
 
 const BookingContext = createContext<BookingContextType | undefined>(undefined);
@@ -42,6 +43,18 @@ export const BookingProvider = ({
     }
   };
 
+  const handleSkipHousing = () => {
+    if (bookingId) {
+      router.push(`/checkout?bookingId=${bookingId}`);
+    } else {
+      console.error("No bookingId found");
+      router.push("/");
+      toast({
+        description: "You need to log in to continue the booking",
+      });
+    }
+  };
+
   return (
     <BookingContext.Provider
       value={{
@@ -52,6 +65,7 @@ export const BookingProvider = ({
         bookingEndDate,
         setBookingEndDate,
         handleDeleteBooking,
+        handleSkipHousing,
       }}
     >
       {" "}
