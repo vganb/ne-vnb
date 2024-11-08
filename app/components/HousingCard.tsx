@@ -42,11 +42,11 @@ export function HousingCard({
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col px-2">
       {/* Back Button */}
 
       {/* Housing Card */}
-      <Card className="w-5/6 mt-2 max-w-2xl mx-auto" onClick={handleCardClick}>
+      <Card className="w-full mt-2 max-w-2xl mx-auto" onClick={handleCardClick}>
         <CardHeader></CardHeader>
         <CardContent className="relative">
           {/* Image of the house */}

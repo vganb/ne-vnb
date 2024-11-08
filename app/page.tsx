@@ -53,7 +53,7 @@ function Home() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col mb-20">
       <Header />
 
       <div className="px-2 mt-4 grid gap-4 place-items-center">
@@ -63,16 +63,18 @@ function Home() {
         />
         <DatePickerWithRange />
       </div>
-      <div className="w-full sm:w-[400px] flex flex-col mx-auto mt-4 py-4 items-center border-2 rounded-lg">
+      <div className="px-6 sm:w-[400px] flex flex-col mx-auto mt-4 py-4 items-center border-2 rounded-lg">
         <h1 className="font-semibold">Packages</h1>
         <p>Ready to go travel packages, get yours today!</p>
         <CardIntro />
       </div>
-      <CategoryFilter
-        categories={categories}
-        selectedCategory={selectedCategory}
-        onSelectCategory={setSelectedCategory}
-      />
+      <div className="px-2">
+        <CategoryFilter
+          categories={categories}
+          selectedCategory={selectedCategory}
+          onSelectCategory={setSelectedCategory}
+        />
+      </div>
       {/* Responsive grid layout for PackageCard */}
       <PackageList
         packages={filteredPackages}
