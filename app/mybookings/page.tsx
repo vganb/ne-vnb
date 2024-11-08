@@ -8,6 +8,7 @@ import NavigationBottom from "../components/NavigationBottom";
 import BookingCard from "../components/BookingCard";
 import { fetchBookings } from "../../lib/firestore";
 import { auth } from "@/lib/firebase";
+import { useBookingContext } from "@/context/BookingContext"; // Import BookingContext for handleDeleteBooking
 
 // Modify the EnrichedBookingData interface to allow null values for packageData and housingData
 interface EnrichedBookingData {
@@ -48,6 +49,7 @@ const MyBookingsPage = () => {
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const router = useRouter();
+  const { handleDeleteBooking } = useBookingContext(); // Access handleDeleteBooking from context
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -72,6 +74,17 @@ const MyBookingsPage = () => {
       console.error("Error fetching bookings", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const deleteBookingFromList = async (bookingId: string) => {
+    try {
+      await handleDeleteBooking(bookingId, false); // Call handleDeleteBooking from context without redirect
+      setBookings((prevBookings) =>
+        prevBookings.filter((booking) => booking.id !== bookingId)
+      ); // Update state
+    } catch (error) {
+      console.error("Failed to delete booking:", error);
     }
   };
 
@@ -130,6 +143,7 @@ const MyBookingsPage = () => {
           {bookings.map((booking, index) => (
             <BookingCard
               key={index}
+              bookingId={booking.id}
               type={
                 booking.packageData && booking.housingData
                   ? "combined"
@@ -143,6 +157,7 @@ const MyBookingsPage = () => {
               createdAt={booking.createdAt}
               startDate={booking.startDate} // Pass startDate to BookingCard
               endDate={booking.endDate} // Pass endDate to BookingCard
+              deleteBooking={() => deleteBookingFromList(booking.id)} // Pass delete function as prop
             />
           ))}
         </div>

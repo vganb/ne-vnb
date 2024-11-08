@@ -1,5 +1,19 @@
 import React from "react";
 import Image from "next/image";
+import { IoCloseCircle } from "react-icons/io5";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../components/ui/alert-dialog";
+import { Button } from "../components/ui/button";
+
 interface PackageData {
   title: string;
   city: string;
@@ -19,6 +33,7 @@ interface HousingData {
 }
 
 interface BookingProps {
+  bookingId: string;
   type: "package" | "housing" | "combined";
   packageData?: PackageData;
   housingData?: HousingData;
@@ -26,16 +41,18 @@ interface BookingProps {
   status: string;
   endDate?: string;
   createdAt?: string;
+  deleteBooking: () => Promise<void>; // Add deleteBooking as a prop
 }
 
 const BookingCard: React.FC<BookingProps> = ({
+  bookingId,
   type,
   packageData,
   housingData,
   startDate,
   endDate,
+  deleteBooking,
 }) => {
-  // Choose images for package and housing
   const packageImage = packageData?.image;
   const housingImage = housingData?.images[0];
 
@@ -47,9 +64,38 @@ const BookingCard: React.FC<BookingProps> = ({
   return (
     <div className="p-4 bg-white rounded-lg border-2 shadow-md mb-6 ">
       {/* Display Booking Date and Status */}
-      <div className="text-gray-600 text-xs mb-2">
-        <strong>Booking Date:</strong> {displayDate}
+      <div className="flex justify-between items-center text-gray-600 text-xs mb-2">
+        <div>
+          <strong>Booking Date:</strong> {displayDate}
+        </div>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <div>
+              <IoCloseCircle size={40} className="cursor-pointer" />
+            </div>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete your
+                booking.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel asChild>
+                <Button variant="outline">Cancel</Button>
+              </AlertDialogCancel>
+              <AlertDialogAction asChild>
+                <Button variant="destructive" onClick={deleteBooking}>
+                  Delete
+                </Button>
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
+      <div className="flex justify-between"></div>
 
       {/* Package Section */}
       {type === "package" || type === "combined" ? (
@@ -62,6 +108,7 @@ const BookingCard: React.FC<BookingProps> = ({
                 alt={`${packageData?.title} image`}
                 width={1920} // Width in pixels (adjust based on actual image size)
                 height={1080} // Height in pixels (adjust based on actual image size)
+                priority
                 className="w-full h-48 object-cover rounded-t-lg"
                 // layout="responsive"
               />

@@ -11,7 +11,7 @@ interface BookingContextType {
   setBookingStartDate: (date: Date | null) => void;
   bookingEndDate: Date | null;
   setBookingEndDate: (date: Date | null) => void;
-  handleDeleteBooking: (id: string) => Promise<void>; // Add function type to the context
+  handleDeleteBooking: (id: string, redirectToHome?: boolean) => Promise<void>;
   handleSkipHousing: () => void; // Add handleSkipHousing to the interface
   handleBookHousing: (housingData: {
     // Update to handleBookHousing
@@ -36,7 +36,10 @@ export const BookingProvider = ({
   const router = useRouter();
   const { toast } = useToast();
 
-  const handleDeleteBooking = async (id: string) => {
+  const handleDeleteBooking = async (
+    id: string,
+    redirectToHome: boolean = true
+  ) => {
     try {
       await deleteBooking(id); // Use deleteBooking from bookingService
       setBookingId(null); // Clear the bookingId from context
@@ -44,7 +47,9 @@ export const BookingProvider = ({
         description: "Items in cart has been deleted successfully!",
         duration: 3000,
       });
-      router.push("/"); // Navigate to home page after deletion
+      if (redirectToHome) {
+        router.push("/"); // Redirect to homepage if redirectToHome is true
+      }
     } catch (error) {
       console.error("Error deleting booking:", error);
       toast({ description: "Failed to delete booking." });
