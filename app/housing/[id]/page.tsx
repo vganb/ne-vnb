@@ -7,9 +7,6 @@ import { getHousingById } from "../../../lib/firestore";
 import { Housing } from "../../../lib/types";
 import NavigationBottom from "@/app/components/NavigationBottom";
 import { useBookingContext } from "../../../context/BookingContext";
-import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../../../lib/firebase";
-import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
 
@@ -19,8 +16,7 @@ const HousingDetailPage = () => {
   const [housingDetail, setHousingDetail] = useState<Housing | null>(null);
   const [loading, setLoading] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
-  const { bookingId, handleBookHousing } = useBookingContext();
-  const { toast } = useToast();
+  const { handleBookHousing } = useBookingContext();
 
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
 

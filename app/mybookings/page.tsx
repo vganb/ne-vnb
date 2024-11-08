@@ -143,7 +143,6 @@ const MyBookingsPage = () => {
           {bookings.map((booking, index) => (
             <BookingCard
               key={index}
-              bookingId={booking.id}
               type={
                 booking.packageData && booking.housingData
                   ? "combined"

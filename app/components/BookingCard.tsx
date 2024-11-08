@@ -33,7 +33,6 @@ interface HousingData {
 }
 
 interface BookingProps {
-  bookingId: string;
   type: "package" | "housing" | "combined";
   packageData?: PackageData;
   housingData?: HousingData;
@@ -45,7 +44,6 @@ interface BookingProps {
 }
 
 const BookingCard: React.FC<BookingProps> = ({
-  bookingId,
   type,
   packageData,
   housingData,

@@ -6,7 +6,7 @@ import { useBookingContext } from "../../context/BookingContext";
 import NavigationBottom from "../components/NavigationBottom";
 import Header from "../components/Header";
 import { db } from "../../lib/firebase";
-import { doc, getDoc, deleteDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import Image from "next/image";
 import LoadingSpinner from "../components/LoadingSpinner";
 
