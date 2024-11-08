@@ -18,6 +18,8 @@ interface PackageDetailProps {
 
 const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
+console.log("Google Maps API Key:", googleMapsApiKey ? "Loaded" : "Not Loaded");
+
 const cityMapUrls: { [key: string]: string } = {
   Stockholm: `https://maps.googleapis.com/maps/api/staticmap?center=Stockholm&zoom=12&size=600x300&key=${googleMapsApiKey}`,
   Oslo: `https://maps.googleapis.com/maps/api/staticmap?center=Oslo&zoom=12&size=600x300&key=${googleMapsApiKey}`,
@@ -184,7 +186,7 @@ const PackageDetail: React.FC<PackageDetailProps> = ({
       {cityMapUrl && (
         <div className="mt-6 mb-20">
           <h3 className="text-lg font-bold mb-2">Location Map:</h3>
-          <Image
+          <img
             src={cityMapUrl}
             alt={`Map of ${packageData.city}`}
             height={1080}
