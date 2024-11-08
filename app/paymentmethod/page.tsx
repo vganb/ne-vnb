@@ -17,7 +17,7 @@ const PaymentPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white p-6">
+    <div className="min-h-screen bg-white p-6 mb-10">
       <header className="flex items-center justify-between mb-4">
         <IoArrowBackCircle size={38} onClick={() => router.back()} />
         <h1 className="text-xl font-semibold">Payment Methods</h1>

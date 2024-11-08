@@ -207,7 +207,7 @@ const CheckoutPage = () => {
       </div>
 
       {/* Confirm Booking Button */}
-      <div className="mt-6 mb-10">
+      <div className="mt-6 mb-20">
         <button
           className="w-full bg-green-500 text-white py-3 rounded-md text-lg font-semibold hover:bg-green-600"
           onClick={handleConfirmBooking}
