@@ -146,7 +146,7 @@ const PaymentPage = () => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="block w-full bg-orange-500 text-white text-lg font-semibold py-3 rounded-md"
+          className="block w-full bg-orange-500 text-white text-lg font-semibold py-3 rounded-md mb-20"
         >
           Submit Order
         </button>
