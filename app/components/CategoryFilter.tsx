@@ -13,7 +13,7 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({
   onSelectCategory,
 }) => {
   return (
-    <div className="w-full sm:w-[400px] bg-orange-100 rounded-lg mt-4 mx-auto">
+    <div className="w-full sm:w-[600px] md:w-[700px] md:flex md:justify-center bg-orange-100 rounded-lg mt-4 mx-auto">
       <HorizontalScrollbarPage>
         {categories.map((category, index) => (
           <div
