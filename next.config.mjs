@@ -37,6 +37,7 @@ const nextConfig = {
       "d2wxmbjkuhn0pi.cloudfront.net",
       "live.theater-backend.umakers.io",
       "www.stockholmlgbt.com",
+      "maps.googleapis.com",
     ],
   },
 };

@@ -16,6 +16,15 @@ interface PackageDetailProps {
   onGoBack: () => void;
 }
 
+const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+
+const cityMapUrls: { [key: string]: string } = {
+  Stockholm: `https://maps.googleapis.com/maps/api/staticmap?center=Stockholm&zoom=12&size=600x300&key=${googleMapsApiKey}`,
+  Oslo: `https://maps.googleapis.com/maps/api/staticmap?center=Oslo&zoom=12&size=600x300&key=${googleMapsApiKey}`,
+  Helsinki: `https://maps.googleapis.com/maps/api/staticmap?center=Helsinki&zoom=12&size=600x300&key=${googleMapsApiKey}`,
+  Copenhagen: `https://maps.googleapis.com/maps/api/staticmap?center=Copenhagen&zoom=12&size=600x300&key=${googleMapsApiKey}`,
+};
+
 const PackageDetail: React.FC<PackageDetailProps> = ({
   packageData,
   onGoBack,
@@ -99,6 +108,8 @@ const PackageDetail: React.FC<PackageDetailProps> = ({
     return <div>Loading package details...</div>;
   }
 
+  const cityMapUrl = cityMapUrls[packageData.city] || "";
+
   return (
     <div className="max-w-2xl mx-auto mt-2 p-4">
       <div className="relative w-full">
@@ -157,7 +168,7 @@ const PackageDetail: React.FC<PackageDetailProps> = ({
       )}
 
       {/* Location Map */}
-      {packageData.locationMap && (
+      {/* {packageData.locationMap && (
         <div className="mt-6 mb-20">
           <h3 className="text-lg font-bold mb-2">Locations:</h3>
           <Image
@@ -168,8 +179,20 @@ const PackageDetail: React.FC<PackageDetailProps> = ({
             className="rounded-md object-cover w-full h-40"
           />
         </div>
-      )}
+      )}   */}
 
+      {cityMapUrl && (
+        <div className="mt-6 mb-20">
+          <h3 className="text-lg font-bold mb-2">Location Map:</h3>
+          <Image
+            src={cityMapUrl}
+            alt={`Map of ${packageData.city}`}
+            height={1080}
+            width={1920}
+            className="rounded-md object-cover w-full h-40"
+          />
+        </div>
+      )}
       {/* Book Button */}
       <div className="fixed md:static bottom-0 left-0 w-full max-w-2xl mx-auto px-4 py-2 bg-transparent">
         <button
