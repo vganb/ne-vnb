@@ -1,6 +1,6 @@
 "use client";
 import { createContext, useContext, useState } from "react";
-import { deleteBooking } from "../lib/bookingService";
+import { deleteBooking, updateBookingWithHousing } from "../lib/bookingService";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast"; // Import useToast
 
@@ -13,6 +13,14 @@ interface BookingContextType {
   setBookingEndDate: (date: Date | null) => void;
   handleDeleteBooking: (id: string) => Promise<void>; // Add function type to the context
   handleSkipHousing: () => void; // Add handleSkipHousing to the interface
+  handleBookHousing: (housingData: {
+    // Update to handleBookHousing
+    id: string;
+    title: string;
+    price: number;
+    host: string;
+    city: string;
+  }) => Promise<void>;
 }
 
 const BookingContext = createContext<BookingContextType | undefined>(undefined);
@@ -55,6 +63,32 @@ export const BookingProvider = ({
     }
   };
 
+  const handleBookHousing = async (housingData: {
+    id: string;
+    title: string;
+    price: number;
+    host: string;
+    city: string;
+  }) => {
+    if (bookingId) {
+      try {
+        await updateBookingWithHousing(bookingId, housingData);
+        router.push(`/checkout?bookingId=${bookingId}`);
+      } catch (error) {
+        console.error("Error updating booking with housing: ", error);
+        toast({
+          description: "Failed to update booking with housing details.",
+        });
+      }
+    } else {
+      console.error("No bookingId found");
+      toast({
+        description: "You need to log in to book a package and housing!",
+      });
+      router.push("/");
+    }
+  };
+
   return (
     <BookingContext.Provider
       value={{
@@ -66,6 +100,7 @@ export const BookingProvider = ({
         setBookingEndDate,
         handleDeleteBooking,
         handleSkipHousing,
+        handleBookHousing,
       }}
     >
       {" "}

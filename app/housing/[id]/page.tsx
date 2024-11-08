@@ -19,7 +19,7 @@ const HousingDetailPage = () => {
   const [housingDetail, setHousingDetail] = useState<Housing | null>(null);
   const [loading, setLoading] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
-  const { bookingId } = useBookingContext();
+  const { bookingId, handleBookHousing } = useBookingContext();
   const { toast } = useToast();
 
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
@@ -54,29 +54,15 @@ const HousingDetailPage = () => {
   if (!housingDetail) {
     return <div>Housing not found</div>;
   }
-
-  const handleBookHousing = async () => {
-    if (bookingId) {
-      try {
-        const bookingDocRef = doc(db, "bookings", bookingId);
-        await updateDoc(bookingDocRef, {
-          housingId: housingDetail.id,
-          housingTitle: housingDetail.title,
-          housingPrice: housingDetail.price,
-          housingHost: housingDetail.host,
-          housingCity: housingDetail.city,
-        });
-
-        router.push(`/checkout?bookingId=${bookingId}`);
-      } catch (error) {
-        console.error("Error updating booking with housing: ", error);
-      }
-    } else {
-      console.error("No bookingId found");
-      toast({
-        description: "You need to log in to book a package and housing!",
+  const bookHousing = () => {
+    if (housingDetail) {
+      handleBookHousing({
+        id: housingDetail.id,
+        title: housingDetail.title,
+        price: housingDetail.price,
+        host: housingDetail.host,
+        city: housingDetail.city,
       });
-      router.push("/");
     }
   };
 
@@ -152,7 +138,7 @@ const HousingDetailPage = () => {
             ${housingDetail.price}
           </p>
           <button
-            onClick={handleBookHousing}
+            onClick={bookHousing}
             className="bg-orange-500 text-white px-8 py-3 rounded-md font-semibold text-lg hover:bg-orange-600 transition"
           >
             Book
