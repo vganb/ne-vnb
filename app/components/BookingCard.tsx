@@ -146,6 +146,7 @@ const BookingCard: React.FC<BookingProps> = ({
                 alt={`${housingData?.title} image`}
                 width={1920} // Width in pixels (adjust based on actual image size)
                 height={1080}
+                priority
                 className="w-full h-48 object-fill rounded-t-lg"
               />
             </div>
