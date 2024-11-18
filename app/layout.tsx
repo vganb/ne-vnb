@@ -4,6 +4,7 @@ import { BookingProvider } from "../context/BookingContext"; // Import the Booki
 
 import "./globals.css";
 import { Toaster } from "./components/ui/toaster";
+import Head from "next/head";
 
 export const metadata: Metadata = {
   title: "Nordic Experiences",
@@ -28,10 +29,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+      </Head>
       <body>
-        <head>
-          <link rel="icon" href="/favicon.ico" sizes="any" />
-        </head>
         <AuthProvider>
           <BookingProvider>
             {children}
