@@ -137,28 +137,30 @@ const MyBookingsPage = () => {
   return (
     <>
       <Header />
-      <div className="p-4">
-        <h1 className="text-2xl font-bold mb-4">My Bookings</h1>
-        <div className="space-y-6 pb-24">
-          {bookings.map((booking, index) => (
-            <BookingCard
-              key={index}
-              type={
-                booking.packageData && booking.housingData
-                  ? "combined"
-                  : booking.packageData
-                  ? "package"
-                  : "housing"
-              }
-              packageData={booking.packageData || undefined}
-              housingData={booking.housingData || undefined}
-              status={booking.status}
-              createdAt={booking.createdAt}
-              startDate={booking.startDate} // Pass startDate to BookingCard
-              endDate={booking.endDate} // Pass endDate to BookingCard
-              deleteBooking={() => deleteBookingFromList(booking.id)} // Pass delete function as prop
-            />
-          ))}
+      <div className="p-8">
+        <h1 className="text-3xl font-bold mb-4 text-center">My Bookings</h1>
+        <div className="max-w-screen-md mx-auto">
+          <div className="grid grid-cols-1  gap-6 pb-24">
+            {bookings.map((booking, index) => (
+              <BookingCard
+                key={index}
+                type={
+                  booking.packageData && booking.housingData
+                    ? "combined"
+                    : booking.packageData
+                    ? "package"
+                    : "housing"
+                }
+                packageData={booking.packageData || undefined}
+                housingData={booking.housingData || undefined}
+                status={booking.status}
+                createdAt={booking.createdAt}
+                startDate={booking.startDate} // Pass startDate to BookingCard
+                endDate={booking.endDate} // Pass endDate to BookingCard
+                deleteBooking={() => deleteBookingFromList(booking.id)} // Pass delete function as prop
+              />
+            ))}
+          </div>
         </div>
       </div>
       <NavigationBottom />

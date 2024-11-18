@@ -27,10 +27,10 @@ const CardIntro = () => {
         <DialogHeader>
           <DialogTitle className="text-orange-400">Learn More</DialogTitle>
           <DialogDescription>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet,
-            sequi ipsam. Optio dolores nostrum assumenda veniam deleniti quia,
-            corporis alias. Lorem ipsum dolor, sit amet consectetur adipisicing
-            elit. Placeat, eveniet?
+            Discover a seamless travel app where you can easily book complete
+            travel packages with activities, accommodation, and restaurants
+            included. Customize your experience with carefully selected options
+            for a stress-free and memorable vacation!
           </DialogDescription>
         </DialogHeader>
         {/* <div className="flex items-center space-x-2">

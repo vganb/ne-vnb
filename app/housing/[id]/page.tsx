@@ -129,7 +129,7 @@ const HousingDetailPage = () => {
         </p>
         <p className="mt-4 text-gray-700">{housingDetail.description}</p>
 
-        <div className="fixed bottom-20 left-1/2 transform -translate-x-1/2 w-3/4 bg-orange-100 shadow-md flex justify-between items-center rounded-md px-4 py-2">
+        <div className="fixed bottom-20 left-1/2 transform -translate-x-1/2 w-3/4 md:w-1/4 bg-orange-100 shadow-md flex justify-between items-center rounded-md px-4 py-2">
           <p className="text-2xl font-bold text-orange-600">
             ${housingDetail.price}
           </p>
