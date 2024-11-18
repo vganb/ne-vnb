@@ -3,6 +3,7 @@ import { useState } from "react";
 import NavigationBottom from "../components/NavigationBottom";
 import { IoArrowBackCircle } from "react-icons/io5";
 import { useRouter } from "next/navigation";
+
 const PaymentPage = () => {
   const [selectedPayment, setSelectedPayment] = useState("credit-card");
   const router = useRouter();
@@ -17,7 +18,10 @@ const PaymentPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white p-6 mb-10">
+    <div
+      suppressHydrationWarning
+      className="w-2/3 md:w-2/5 mx-auto bg-white p-6 mb-10"
+    >
       <header className="flex items-center justify-between mb-4">
         <IoArrowBackCircle size={38} onClick={() => router.back()} />
         <h1 className="text-xl font-semibold">Payment Methods</h1>
