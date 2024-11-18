@@ -7,20 +7,31 @@ import { Toaster } from "./components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "Nordic Experiences",
-  description: "Nordic Experiences - Book your next adventure",
+  description:
+    "Book curated adventures in Scandinavia's capitals - Oslo, Stockholm, Helsinki, and Copenhagen.",
+  keywords: [
+    "Scandinavian travel",
+    "Oslo experiences",
+    "Stockholm tours",
+    "Helsinki food packages",
+    "Copenhagen apartments",
+  ],
+  authors: [
+    { name: "Nordic Experiences Team", url: "https://ne-vnb.vercel.app/" },
+  ],
 };
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
     <html lang="en">
-      <head>
-        <link rel="icon" href="/img/favicon.ico" sizes="any" />
-      </head>
       <body>
+        <head>
+          <link rel="icon" href="/favicon.ico" sizes="any" />
+        </head>
         <AuthProvider>
           <BookingProvider>
             {children}
